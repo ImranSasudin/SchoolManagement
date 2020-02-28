@@ -2,7 +2,7 @@
 	<div class="section__content section__content--p35">
 		<div class="header3-wrap">
 			<div class="header__logo">
-				<a href="#"> <img src="images/icon/logo-white.png"
+				<a href="#"> <img src="../images/icon/apple-touch-icon2.png"
 					alt="CoolAdmin" />
 				</a>
 			</div>
@@ -41,7 +41,7 @@
 					<div
 						class="account-item account-item--style2 clearfix js-item-menu">
 						<div class="image">
-							<img src="images/icon/profile.png" alt="Profile Picture" />
+							<img src="../images/icon/profile.png" alt="Profile Picture" />
 						</div>
 						<div class="content">
 							<a class="js-acc-btn" href="#">john doe</a>
