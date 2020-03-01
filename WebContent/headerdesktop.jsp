@@ -6,7 +6,7 @@
 	<div class="section__content section__content--p35">
 		<div class="header3-wrap">
 			<div class="header__logo">
-				<a href="#"> <img src="../images/icon/apple-touch-icon2.png"
+				<a href="#"> <img src="/SchoolManagement/images/icon/apple-touch-icon2.png"
 					alt="CoolAdmin" />
 				</a>
 			</div>
@@ -43,8 +43,8 @@
 							<span class="bot-line"></span>Teacher
 					</a>
 						<ul class="header3-sub-list list-unstyled">
-							<li><a href="login.html">Register New Teacher</a></li>
-							<li><a href="register.html">List All Teachers</a></li>
+							<li><a href="/SchoolManagement/Teacher/RegisterTeacher.jsp">Register New Teacher</a></li>
+							<li><a href="/SchoolManagement/TeacherController?action=ListTeachers">List All Teachers</a></li>
 						</ul>
 					</li>
 
@@ -55,7 +55,7 @@
 					<div
 						class="account-item account-item--style2 clearfix js-item-menu">
 						<div class="image">
-							<img src="../images/icon/profile.png" alt="Profile Picture" />
+							<img src="/SchoolManagement/images/icon/profile.png" alt="Profile Picture" />
 						</div>
 						<div class="content">
 							<a class="js-acc-btn" href="#"><%=teacherName %></a>
@@ -63,7 +63,7 @@
 						<div class="account-dropdown js-dropdown">
 							<div class="info clearfix">
 								<div class="image">
-									<a href="#"> <img src="../images/icon/profile.png"
+									<a href="#"> <img src="/SchoolManagement/images/icon/profile.png"
 										alt="Profile Picture" />
 									</a>
 								</div>

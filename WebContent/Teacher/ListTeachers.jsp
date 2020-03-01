@@ -61,10 +61,10 @@
 								<div class="au-breadcrumb-left">
 									<span class="au-breadcrumb-span">You are here:</span>
 									<ul class="list-unstyled list-inline au-breadcrumb__list">
-										<li class="list-inline-item active">Student
+										<li class="list-inline-item active">Teacher
 										</li>
 										<li class="list-inline-item seprate"><span>/</span></li>
-										<li class="list-inline-item">List All Students</li>
+										<li class="list-inline-item">List All Teachers</li>
 									</ul>
 								</div>
 								<!--<form class="au-form-icon--sm" action="" method="post">
@@ -87,7 +87,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<h1 class="title-4">
-								Student Lists
+								Teacher Lists
 							</h1>
 							<hr class="line-seprate">
 						</div>
@@ -98,7 +98,30 @@
 
 			<!-- CONTENT -->
 			<div class="container">
-			
+				<div class="row">
+					<div class="col-lg-10 mx-auto"><br>
+						<table id="dtBasicExample"
+							class="table table-striped table-bordered">
+
+							<thead>
+								<th class="th-sm">Teacher ID</th>
+								<th class="th-sm">Name</th>
+								<th class="th-sm">Class Handle</th>
+								<th class="th-sm">Department</th>
+							</thead>
+							<tbody>
+								<c:forEach items="${teachers}" var="teacher">
+									<tr>
+										<td><c:out value="${teacher.teacherID}"/></td>			
+										<td><c:out value="${teacher.teacherName}"/></td>
+										<td><c:out value="${teacher.classHandle}"/></td>
+										<td><c:out value="${teacher.department}"/></td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</div>
 			</div>
 
 			<!-- COPYRIGHT-->
@@ -142,7 +165,17 @@
     <!-- Main JS-->
     <script src="js/main.js"></script>
     <script src="js/datatables.min.js"></script>
-
+	
+	<script>
+		$(document).ready(function() {
+			$('#dtBasicExample').DataTable({
+				"scrollX" : true,
+				 "responsive" : true,
+				"bAutoWidth" : false
+			});
+			$('.dataTables_length').addClass('bs-select');
+		});
+	</script>
 </body>
 
 </html>
