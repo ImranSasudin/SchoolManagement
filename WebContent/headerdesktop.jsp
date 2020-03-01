@@ -1,5 +1,5 @@
-<% Integer teacherID = (Integer) session.getAttribute("teacherIDSession"); %>
-<% String teacherName = (String) session.getAttribute("teacherNameSession"); %>
+<% Integer userID = (Integer) session.getAttribute("userIDSession"); %>
+<% String userName = (String) session.getAttribute("userNameSession"); %>
 <% String role = (String) session.getAttribute("userRoleSession"); %>
 
 <header class="header-desktop3 d-none d-lg-block">
@@ -58,7 +58,7 @@
 							<img src="/SchoolManagement/images/icon/profile.png" alt="Profile Picture" />
 						</div>
 						<div class="content">
-							<a class="js-acc-btn" href="#"><%=teacherName %></a>
+							<a class="js-acc-btn" href="#"><%=userName %></a>
 						</div>
 						<div class="account-dropdown js-dropdown">
 							<div class="info clearfix">
@@ -69,14 +69,14 @@
 								</div>
 								<div class="content">
 									<h5 class="name">
-										<a href="#"><%=teacherName %></a>
+										<a href="#"><%=userName %></a>
 									</h5>
-									<span class="email">ID : <%=teacherID %></span>
+									<span class="email">ID : <%=userID %></span>
 								</div>
 							</div>
 							<div class="account-dropdown__body">
 								<div class="account-dropdown__item">
-									<a href="#"> <i class="zmdi zmdi-account"></i>Account
+									<a href="/SchoolManagement/LoginController?action=Account&ID=<%=userID %>"> <i class="zmdi zmdi-account"></i>Account
 									</a>
 								</div>
 							</div>

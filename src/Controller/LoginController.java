@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +19,9 @@ import Dao.TeacherDAO;
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Teacher teacher = new Teacher();
+	
+	private static String VIEW_ACCOUNT = "/Teacher/ViewAccount.jsp";
+	private String forward = "";
 
 	public LoginController() {
 		super();
@@ -25,6 +29,35 @@ public class LoginController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String action = request.getParameter("action");
+		
+		if (action.equalsIgnoreCase("Account")) {
+			HttpSession session = request.getSession(true);
+			String role = (String) session.getAttribute("userRoleSession");
+			
+			if (role.equalsIgnoreCase("Teacher")) {
+				Integer teacherID = Integer.parseInt(request.getParameter("ID"));
+				forward = VIEW_ACCOUNT;
+				
+				teacher = TeacherDAO.getUserByID(teacherID);
+				String classHandle = teacher.getClassHandle();
+				
+				String[] arrOfStr = classHandle.split(" ");
+				
+				String form = arrOfStr[0];
+				String formClass = arrOfStr[1];
+				
+				request.setAttribute("teacher", teacher);
+				request.setAttribute("form", form);
+				request.setAttribute("formClass", formClass);
+			}
+			else if (role.equalsIgnoreCase("Student")) {
+				
+			}
+		}
+		
+		RequestDispatcher view = request.getRequestDispatcher(forward);
+ 	    view.forward(request, response);
 
 	}
 
@@ -51,8 +84,8 @@ public class LoginController extends HttpServlet {
 			if (teacher.isValid()) {
 				// Set Session
 				HttpSession session = request.getSession(true);
-				session.setAttribute("teacherIDSession", teacherID);
-				session.setAttribute("teacherNameSession", teacher.getTeacherName());
+				session.setAttribute("userIDSession", teacherID);
+				session.setAttribute("userNameSession", teacher.getTeacherName());
 				session.setAttribute("userRoleSession", "Teacher");
 
 				response.setContentType("text/html");
