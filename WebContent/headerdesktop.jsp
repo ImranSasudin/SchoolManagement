@@ -1,3 +1,7 @@
+<% Integer teacherID = (Integer) session.getAttribute("teacherIDSession"); %>
+<% String teacherName = (String) session.getAttribute("teacherNameSession"); %>
+<% String role = (String) session.getAttribute("userRoleSession"); %>
+
 <header class="header-desktop3 d-none d-lg-block">
 	<div class="section__content section__content--p35">
 		<div class="header3-wrap">
@@ -29,10 +33,20 @@
 						<ul class="header3-sub-list list-unstyled">
 							<li><a href="login.html">Add New Event</a></li>
 							<li><a href="register.html">List All Events</a></li>
-						</ul></li>
+						</ul>
+					</li>
 					<li><a href="table.html"> <i class="fas fa-trophy"></i> <span
 							class="bot-line"></span>Performance by Batch
-					</a></li>
+					</a>
+					</li>
+					<li class="has-sub"><a href="#"> <i class="fas fa-briefcase"></i>
+							<span class="bot-line"></span>Teacher
+					</a>
+						<ul class="header3-sub-list list-unstyled">
+							<li><a href="login.html">Register New Teacher</a></li>
+							<li><a href="register.html">List All Teachers</a></li>
+						</ul>
+					</li>
 
 				</ul>
 			</div>
@@ -44,20 +58,20 @@
 							<img src="../images/icon/profile.png" alt="Profile Picture" />
 						</div>
 						<div class="content">
-							<a class="js-acc-btn" href="#">john doe</a>
+							<a class="js-acc-btn" href="#"><%=teacherName %></a>
 						</div>
 						<div class="account-dropdown js-dropdown">
 							<div class="info clearfix">
 								<div class="image">
-									<a href="#"> <img src="images/icon/profile.png"
+									<a href="#"> <img src="../images/icon/profile.png"
 										alt="Profile Picture" />
 									</a>
 								</div>
 								<div class="content">
 									<h5 class="name">
-										<a href="#">john doe</a>
+										<a href="#"><%=teacherName %></a>
 									</h5>
-									<span class="email">johndoe@example.com</span>
+									<span class="email">ID : <%=teacherID %></span>
 								</div>
 							</div>
 							<div class="account-dropdown__body">
