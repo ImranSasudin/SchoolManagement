@@ -80,7 +80,7 @@
 				</div>
 			</section>
 			<!-- END BREADCRUMB-->
-
+			
 			<!-- WELCOME-->
 			<section class="welcome p-t-10">
 				<div class="container">
@@ -90,6 +90,48 @@
 								Student Lists
 							</h1>
 							<hr class="line-seprate">
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- END WELCOME-->
+
+			<!-- WELCOME-->
+			<section class="welcome p-t-10">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-11 mx-auto">
+							<table id="dtBasicExample" style="table-layout:fixed"
+								class="table table-striped table-bordered">
+								<thead style="">
+										<th class="th-sm">Student ID</th>
+										<th class="th-sm">IC Number</th>
+										<th class="th-sm">Name</th>
+										<!-- <th class="th-sm">Age</th>
+										<th class="th-sm">Address</th> -->
+										<th class="th-sm">Class</th>
+										<!-- <th class="th-sm">Guardian Name</th>
+										<th class="th-sm">Guardian Job</th> -->
+										<th class="th-sm"></th>
+										<th class="th-sm"></th>
+								</thead>
+								<tbody style="">
+									<c:forEach items="${students}" var="s">
+										<tr>
+											<td><c:out value="${s.id}" /></td>
+											<td><c:out value="${s.ic}" /></td>
+											<td><c:out value="${s.name}" /></td>
+											<%-- <td><c:out value="${s.age}" /></td>
+											<td><c:out value="${s.address}" /></td> --%>
+											<td><c:out value="${s.className}" /></td>
+											<%-- <td><c:out value="${s.guardianName}" /></td>
+											<td><c:out value="${s.guardianJob}" /></td> --%>
+											<td class="text-center"><a href="StudentController?action=UpdateStudent&id=<c:out value="${s.id}"/>" class="btn btn-primary">Update</a></td>
+											<td class="text-center"><a href="" class="btn btn-secondary">Performance</a></td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -142,6 +184,24 @@
     <!-- Main JS-->
     <script src="js/main.js"></script>
     <script src="js/datatables.min.js"></script>
+
+	<script>
+		$(document).ready(function() {
+			$('#dtBasicExample').DataTable({
+				'columnDefs' : [ {
+
+					'targets' : [ 4, 5 ], // column or columns numbers
+
+					'orderable' : false, // set orderable for selected columns
+
+				} ],
+				"scrollX" : true,
+				responsive : true,
+				"bAutoWidth" : false
+			});
+			$('.dataTables_length').addClass('bs-select');
+		});
+	</script>
 
 </body>
 

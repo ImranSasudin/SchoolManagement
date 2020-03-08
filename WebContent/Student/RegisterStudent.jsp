@@ -61,9 +61,9 @@
 								<div class="au-breadcrumb-left">
 									<span class="au-breadcrumb-span">You are here:</span>
 									<ul class="list-unstyled list-inline au-breadcrumb__list">
-										<li class="list-inline-item active">Teacher</li>
+										<li class="list-inline-item active">Student</li>
 										<li class="list-inline-item seprate"><span>/</span></li>
-										<li class="list-inline-item">Register New Teacher</li>
+										<li class="list-inline-item">Register New Student</li>
 									</ul>
 								</div>
 								<!--<form class="au-form-icon--sm" action="" method="post">
@@ -85,7 +85,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-md-12">
-							<h1 class="title-4">Register New Teacher</h1>
+							<h1 class="title-4">Register New Student</h1>
 							<hr class="line-seprate">
 						</div>
 					</div>
@@ -97,27 +97,48 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-6 mx-auto">
-					<form action="../TeacherController" method="post">
+					<form action="../StudentController" method="post">
 						<br>
 						<div class="card h-100">
-							<h4 class="card-header">Personal Details</h4>
+							<h4 class="card-header">Student Details</h4>
 							
 							<div class="card-body">
 								<div class="form-group">
 									<br />
-									<h4 class="text-left ">Name* :</h4>
-									<input type="text" name="teacherName"
+									<!-- <h4 class="text-left ">Student ID* :</h4>
+									<input type="text" name="id"
 										class="form-control border border-info"
 										placeholder="" required>
+									<br> -->
+									<h4 class="text-left ">IC Number* :</h4>
+									<input type="text" name="ic"
+										class="form-control border border-info" pattern="^([0-9]{12})$" title="12 digit number without dashes('-')'"
+										placeholder="without dash '-'" required>
 									<br>
-									<h4 class="text-left ">Password* :</h4>
-									<input type="password" name="teacherPassword"
+									<h4 class="text-left ">Name* :</h4>
+									<input type="text" name="name"
 										class="form-control border border-info"
 										placeholder="" required>
 									<br>
 									<div class="row">
+										<div class="col-4">
+									<h4 class="text-left ">Age* :</h4>
+									<input type="number" name="age"
+										class="form-control border border-info"
+										placeholder="" required>
+									<br>
+									</div>
+									<div class="col-8">
+									<h4 class="text-left ">Address* :</h4>
+									<textarea type="text" name="address"
+										class="form-control border border-info"
+										placeholder="" required></textarea>
+										</div>
+									</div>
+									<br>
+									<div class="row">
 										<div class="col">
-											<h4 class="text-left">Class Handle* :</h4>
+											<h4 class="text-left">Class Name* :</h4>
 										</div>
 									</div>
 									<br>
@@ -144,15 +165,21 @@
 										</div>
 									</div>
 									<br>
-									<h4 class="text-left ">Department* :</h4>
-									<input type="text" name="department"
+									<h4 class="text-left ">Guardian Name* :</h4>
+									<input type="text" name="guardianName"
 										class="form-control border border-info"
-										placeholder="Matematik / Bahasa Melayu / etc" required>
+										placeholder="" required>
+									<br>
+									<h4 class="text-left ">Guardian Job* :</h4>
+									<input type="text" name="job"
+										class="form-control border border-info"
+										placeholder="" required>
+									<br>
 								</div>
 							</div>
 							
 							<div class="card-footer text-center ">
-								<button type="submit" name="action" value="RegisterTeacher" class="btn btn-primary ">Register</button>
+								<button type="submit" name="action" value="RegisterStudent" class="btn btn-primary ">Register</button>
 							</div>
 							
 						</div>

@@ -16,8 +16,8 @@
 							class="fas fa-graduation-cap"></i>Student <span class="bot-line"></span>
 					</a>
 						<ul class="header3-sub-list list-unstyled">
-							<li><a href="index.html">Add New Student</a></li>
-							<li><a href="index2.html">List All Students</a></li>
+							<li><a href="/SchoolManagement/Student/RegisterStudent.jsp">Add New Student</a></li>
+							<li><a href="/SchoolManagement/StudentController?action=ListStudents">List All Students</a></li>
 						</ul></li>
 					<li class="has-sub"><a href="#"> <i
 							class="fas fa-copy"></i> <span class="bot-line"></span>Examination

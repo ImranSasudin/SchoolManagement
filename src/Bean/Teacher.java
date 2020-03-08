@@ -16,7 +16,7 @@ public class Teacher {
 	}
 	
 	public Teacher(){
-		
+		super();
 	}
 
 	public Integer getTeacherID() {

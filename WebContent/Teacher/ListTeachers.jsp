@@ -100,14 +100,14 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-10 mx-auto"><br>
-						<table id="dtBasicExample"
+						<table id="dtBasicExample" style="table-layout:fixed"
 							class="table table-striped table-bordered">
 
 							<thead>
-								<th class="th-sm">Teacher ID</th>
-								<th class="th-sm">Name</th>
-								<th class="th-sm">Class Handle</th>
-								<th class="th-sm">Department</th>
+									<th class="th-sm">Teacher ID</th>
+									<th class="th-sm">Name</th>
+									<th class="th-sm">Class Handle</th>
+									<th class="th-sm">Department</th>
 							</thead>
 							<tbody>
 								<c:forEach items="${teachers}" var="teacher">
@@ -147,20 +147,16 @@
     <script src="vendor/bootstrap-4.1/popper.min.js"></script>
     <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
     <!-- Vendor JS       -->
-    <script src="vendor/slick/slick.min.js">
-    </script>
+    <script src="vendor/slick/slick.min.js"></script>
     <script src="vendor/wow/wow.min.js"></script>
     <script src="vendor/animsition/animsition.min.js"></script>
-    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
-    </script>
+    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
     <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="vendor/counter-up/jquery.counterup.min.js">
-    </script>
+    <script src="vendor/counter-up/jquery.counterup.min.js"></script>
     <script src="vendor/circle-progress/circle-progress.min.js"></script>
     <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
     <script src="vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="vendor/select2/select2.min.js">
-    </script>
+    <script src="vendor/select2/select2.min.js"></script>
 
     <!-- Main JS-->
     <script src="js/main.js"></script>
@@ -169,10 +165,11 @@
 	<script>
 		$(document).ready(function() {
 			$('#dtBasicExample').DataTable({
-				"scrollX" : true,
-				 "responsive" : true,
-				"bAutoWidth" : false
+				"scrollX": true,
+			    responsive: true,
+			    "bAutoWidth": false
 			});
+			
 			$('.dataTables_length').addClass('bs-select');
 		});
 	</script>
