@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 01, 2020 at 08:24 PM
+-- Generation Time: Mar 08, 2020 at 07:15 PM
 -- Server version: 10.1.40-MariaDB
 -- PHP Version: 7.3.5
 
@@ -21,6 +21,33 @@ SET time_zone = "+00:00";
 --
 -- Database: `school`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student`
+--
+
+CREATE TABLE `student` (
+  `STUDENT_ID` int(100) NOT NULL,
+  `STUDENT_IC` varchar(50) NOT NULL,
+  `STUDENT_NAME` varchar(255) NOT NULL,
+  `STUDENT_AGE` int(11) NOT NULL,
+  `STUDENT_ADDRESS` varchar(255) NOT NULL,
+  `CLASS_NAME` varchar(255) NOT NULL,
+  `GUARDIAN_NAME` varchar(255) NOT NULL,
+  `GUARDIAN_JOB` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `student`
+--
+
+INSERT INTO `student` (`STUDENT_ID`, `STUDENT_IC`, `STUDENT_NAME`, `STUDENT_AGE`, `STUDENT_ADDRESS`, `CLASS_NAME`, `GUARDIAN_NAME`, `GUARDIAN_JOB`) VALUES
+(1, '3', 'Ali Baba', 14, 'Taman Mawar', '2 CENDIKIAWAN', 'Abu', 'Polis'),
+(100, '3', 'a', 3, 'd', '4 DAMAI', 's', 'd'),
+(101, '3', 'a', 3, 'd', '1 ARIF', 's', 'd'),
+(102, '980519065633', 'Imran', 321, 'd', '2 BESTARI', 'Sasudin', 'A');
 
 -- --------------------------------------------------------
 
@@ -51,6 +78,12 @@ INSERT INTO `teacher` (`TEACHER_ID`, `PASSWORD`, `TEACHER_NAME`, `CLASS_HANDLE`,
 --
 
 --
+-- Indexes for table `student`
+--
+ALTER TABLE `student`
+  ADD PRIMARY KEY (`STUDENT_ID`);
+
+--
 -- Indexes for table `teacher`
 --
 ALTER TABLE `teacher`
@@ -59,6 +92,12 @@ ALTER TABLE `teacher`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `student`
+--
+ALTER TABLE `student`
+  MODIFY `STUDENT_ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT for table `teacher`
