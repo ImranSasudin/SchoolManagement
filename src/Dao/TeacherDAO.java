@@ -85,7 +85,7 @@ public class TeacherDAO {
 
 		return bean;
 	}
-	
+
 	// Register New Teacher
 	public static void add(Teacher bean) throws NoSuchAlgorithmException {
 		teacherName = bean.getTeacherName();
@@ -127,104 +127,101 @@ public class TeacherDAO {
 			}
 		}
 	}
-	
+
 	// Get all teachers
 	public static List<Teacher> getAllTeachers() {
-        List<Teacher> teachers = new ArrayList<Teacher>();
-        try {
-        	currentCon = ConnectionManager.getConnection();
-        	stat = currentCon.createStatement();
-            ResultSet rs = stat.executeQuery("select * from teacher order by teacher_id");
-            
-            while (rs.next()) {
-            	Teacher teacher = new Teacher();
-            	teacher.setTeacherID(rs.getInt("teacher_id"));
-                teacher.setTeacherName(rs.getString("teacher_name"));
-                teacher.setClassHandle(rs.getString("class_handle"));
-                teacher.setDepartment(rs.getString("department"));
+		List<Teacher> teachers = new ArrayList<Teacher>();
+		try {
+			currentCon = ConnectionManager.getConnection();
+			stat = currentCon.createStatement();
+			ResultSet rs = stat.executeQuery("select * from teacher order by teacher_id");
 
-                teachers.add(teacher);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+			while (rs.next()) {
+				Teacher teacher = new Teacher();
+				teacher.setTeacherID(rs.getInt("teacher_id"));
+				teacher.setTeacherName(rs.getString("teacher_name"));
+				teacher.setClassHandle(rs.getString("class_handle"));
+				teacher.setDepartment(rs.getString("department"));
 
-        return teachers;
-    }
-	
+				teachers.add(teacher);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return teachers;
+	}
+
 	// Get teacher by teacherID
 	public static Teacher getUserByID(int teacherID) {
-		
+
 		Teacher teacher = new Teacher();
-		
-	    try {
-	    	currentCon = ConnectionManager.getConnection();
-	        ps=currentCon.prepareStatement("select * from teacher where teacher_id=?");
-	        
-	        ps.setInt(1, teacherID);
 
-	        ResultSet rs = ps.executeQuery();
+		try {
+			currentCon = ConnectionManager.getConnection();
+			ps = currentCon.prepareStatement("select * from teacher where teacher_id=?");
 
-	        if (rs.next()) {
-	        	teacher.setTeacherID(rs.getInt("teacher_id"));
-	        	teacher.setTeacherName(rs.getString("teacher_name"));
-	        	teacher.setPassword(rs.getString("password"));
-	        	teacher.setClassHandle(rs.getString("class_handle"));
-	        	teacher.setDepartment(rs.getString("department"));
+			ps.setInt(1, teacherID);
 
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
+			ResultSet rs = ps.executeQuery();
 
-	    return teacher;
+			if (rs.next()) {
+				teacher.setTeacherID(rs.getInt("teacher_id"));
+				teacher.setTeacherName(rs.getString("teacher_name"));
+				teacher.setPassword(rs.getString("password"));
+				teacher.setClassHandle(rs.getString("class_handle"));
+				teacher.setDepartment(rs.getString("department"));
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return teacher;
 	}
-	
-	// Register New Teacher
-		public static void update(Teacher bean) throws NoSuchAlgorithmException {
-			teacherID = bean.getTeacherID();
-			teacherName = bean.getTeacherName();
-			password = bean.getPassword();
-			classHandle = bean.getClassHandle();
-			department = bean.getDepartment();
 
-			try {
-				currentCon = ConnectionManager.getConnection();
+	// Update Teacher
+	public static void update(Teacher bean) throws NoSuchAlgorithmException {
+		teacherID = bean.getTeacherID();
+		teacherName = bean.getTeacherName();
+		password = bean.getPassword();
+		classHandle = bean.getClassHandle();
+		department = bean.getDepartment();
 
-				ps = currentCon.prepareStatement(
-						"UPDATE teacher set teacher_name = ?,"
-						+ "password = ?,"
-						+ "class_handle = ?,"
-						+ "department = ? where teacher_id = ? ");
-				
-				ps.setString(1, teacherName);
-				ps.setString(2, password);
-				ps.setString(3, classHandle);
-				ps.setString(4, department);
-				ps.setInt(5, teacherID);
-				ps.executeUpdate();
+		try {
+			currentCon = ConnectionManager.getConnection();
 
-			}
+			ps = currentCon.prepareStatement("UPDATE teacher set teacher_name = ?," + "password = ?,"
+					+ "class_handle = ?," + "department = ? where teacher_id = ? ");
 
-			catch (Exception ex) {
-				System.out.println("failed: An Exception has occured!" + ex);
-			}
+			ps.setString(1, teacherName);
+			ps.setString(2, password);
+			ps.setString(3, classHandle);
+			ps.setString(4, department);
+			ps.setInt(5, teacherID);
+			ps.executeUpdate();
 
-			finally {
-				if (ps != null) {
+		}
+
+		catch (Exception ex) {
+			System.out.println("failed: An Exception has occured!" + ex);
+		}
+
+		finally {
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (Exception e) {
+					ps = null;
+				}
+				if (currentCon != null) {
 					try {
-						ps.close();
-					} catch (Exception e) {
-						ps = null;
-					}
-					if (currentCon != null) {
-						try {
-							currentCon.close();
-						} catch (Exception e_) {
-							currentCon = null;
-						}
+						currentCon.close();
+					} catch (Exception e_) {
+						currentCon = null;
 					}
 				}
 			}
 		}
+	}
 }

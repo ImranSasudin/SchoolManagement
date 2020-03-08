@@ -164,6 +164,63 @@ public class StudentDAO {
 		return student;
 	}
 	
+	// Update Student
+		public static void update(Student bean) throws NoSuchAlgorithmException {
+			age = bean.getAge();
+			id = bean.getId();
+			//ic = bean.getIc();
+			name = bean.getName();
+			className = bean.getClassName();
+			guardianName = bean.getGuardianName();
+			guardianJob = bean.getGuardianJob();
+			address = bean.getAddress();
+
+			try {
+				currentCon = ConnectionManager.getConnection();
+
+				ps = currentCon.prepareStatement(
+						"UPDATE student set student_name = ?," 
+						+ "student_age = ?,"
+						+ "student_address = ?,"
+						+ "class_name = ?,"
+						+ "guardian_name = ?,"
+						+ "guardian_job = ?"
+						+ " where student_id = ? ");
+
+				ps.setString(1, name);
+				ps.setInt(2, age);
+				ps.setString(3, address);
+				ps.setString(4, className);
+				ps.setString(5, guardianName);
+				ps.setString(6, guardianJob);
+				ps.setString(7, id);
+				
+				ps.executeUpdate();
+
+			}
+
+			catch (Exception ex) {
+				System.out.println("failed: An Exception has occured!" + ex);
+			}
+
+			finally {
+				if (ps != null) {
+					try {
+						ps.close();
+					} catch (Exception e) {
+						ps = null;
+					}
+					if (currentCon != null) {
+						try {
+							currentCon.close();
+						} catch (Exception e_) {
+							currentCon = null;
+						}
+					}
+				}
+			}
+		}
+	
 	// Get all students
 	public static List<Student> getAllStudents() {
 		List<Student> students = new ArrayList<Student>();

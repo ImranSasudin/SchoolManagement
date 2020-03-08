@@ -61,10 +61,9 @@
 								<div class="au-breadcrumb-left">
 									<span class="au-breadcrumb-span">You are here:</span>
 									<ul class="list-unstyled list-inline au-breadcrumb__list">
-										<li class="list-inline-item active">Student
-										</li>
+										<li class="list-inline-item active">Student</li>
 										<li class="list-inline-item seprate"><span>/</span></li>
-										<li class="list-inline-item">List All Students</li>
+										<li class="list-inline-item">Update Student</li>
 									</ul>
 								</div>
 								<!--<form class="au-form-icon--sm" action="" method="post">
@@ -80,58 +79,14 @@
 				</div>
 			</section>
 			<!-- END BREADCRUMB-->
-			
-			<!-- WELCOME-->
-			<section class="welcome p-t-10">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-12">
-							<h1 class="title-4">
-								Student Lists
-							</h1>
-							<hr class="line-seprate">
-						</div>
-					</div>
-				</div>
-			</section>
-			<!-- END WELCOME-->
 
 			<!-- WELCOME-->
 			<section class="welcome p-t-10">
 				<div class="container">
 					<div class="row">
-						<div class="col-lg-11 mx-auto">
-							<table id="dtBasicExample" style="table-layout:fixed"
-								class="table table-striped table-bordered">
-								<thead style="">
-										<th class="th-sm">Student ID</th>
-										<th class="th-sm">IC Number</th>
-										<th class="th-sm">Name</th>
-										<!-- <th class="th-sm">Age</th>
-										<th class="th-sm">Address</th> -->
-										<th class="th-sm">Class</th>
-										<!-- <th class="th-sm">Guardian Name</th>
-										<th class="th-sm">Guardian Job</th> -->
-										<th class="th-sm"></th>
-										<th class="th-sm"></th>
-								</thead>
-								<tbody style="">
-									<c:forEach items="${students}" var="s">
-										<tr>
-											<td><c:out value="${s.id}" /></td>
-											<td><c:out value="${s.ic}" /></td>
-											<td><c:out value="${s.name}" /></td>
-											<%-- <td><c:out value="${s.age}" /></td>
-											<td><c:out value="${s.address}" /></td> --%>
-											<td><c:out value="${s.className}" /></td>
-											<%-- <td><c:out value="${s.guardianName}" /></td>
-											<td><c:out value="${s.guardianJob}" /></td> --%>
-											<td class="text-center"><a href="StudentController?action=UpdateStudent&id=<c:out value="${s.id}"/>" class="btn btn-primary">Update</a></td>
-											<td class="text-center"><a href="" class="btn btn-success">Performance</a></td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
+						<div class="col-md-12">
+							<h1 class="title-4">Update Student</h1>
+							<hr class="line-seprate">
 						</div>
 					</div>
 				</div>
@@ -140,7 +95,102 @@
 
 			<!-- CONTENT -->
 			<div class="container">
-			
+				<div class="row">
+					<div class="col-6 mx-auto">
+					<form action="StudentController" method="post">
+						<br>
+						<div class="card h-100">
+							<h4 class="card-header">Student Details</h4>
+							
+							<div class="card-body">
+								<div class="form-group">
+									<br />
+									<!-- <h4 class="text-left ">Student ID* :</h4>
+									<input type="text" name="id"
+										class="form-control border border-info"
+										placeholder="" required>
+									<br> -->
+									<h4 class="text-left ">Student ID :</h4>
+									<input type="text" name="id" value="<c:out value="${student.id}"/>"
+										class="form-control border border-info" 
+										placeholder="without dash '-'" readonly>
+									<br>
+									<h4 class="text-left ">IC Number :</h4>
+									<input type="text" name="ic" value="<c:out value="${student.ic}"/>"
+										class="form-control border border-info" 
+										placeholder="without dash '-'" readonly>
+									<br>
+									<h4 class="text-left ">Name* :</h4>
+									<input type="text" name="name"
+										class="form-control border border-info" value="<c:out value="${student.name}"/>"
+										placeholder="" required>
+									<br>
+									<div class="row">
+										<div class="col-4">
+									<h4 class="text-left ">Age* :</h4>
+									<input type="number" name="age"
+										class="form-control border border-info" value="<c:out value="${student.age}"/>"
+										placeholder="" required>
+									<br>
+									</div>
+									<div class="col-8">
+									<h4 class="text-left ">Address* :</h4>
+									<textarea type="text" name="address"
+										class="form-control border border-info" 
+										placeholder="" required><c:out value="${student.address}"/></textarea>
+										</div>
+									</div>
+									<br>
+									<div class="row">
+										<div class="col">
+											<h4 class="text-left">Class Name* :</h4>
+										</div>
+									</div>
+									<br>
+									<div class="row">
+										<div class="col-4">
+											<select name="form" class="form-control border border-info" required>
+												<option selected hidden value="<c:out value="${form}"/>"><c:out value="${form}"/></option>
+												<option value="1">1</option>
+												<option value="2">2</option>
+												<option value="3">3</option>
+												<option value="4">4</option>
+												<option value="5">5</option>
+											</select>
+										</div>
+										<div class="col-8">
+											<select name="class" class="form-control border border-info" required>
+												<option selected hidden value="<c:out value="${formClass}"/>"><c:out value="${formClass}"/></option>
+												<option value="ARIF">ARIF</option>
+												<option value="BESTARI">BESTARI</option>
+												<option value="CENDIKIAWAN">CENDIKIAWAN</option>
+												<option value="DAMAI">DAMAI</option>
+												<option value="EFISIEN">EFISIEN</option>
+											</select>
+										</div>
+									</div>
+									<br>
+									<h4 class="text-left ">Guardian Name* :</h4>
+									<input type="text" name="guardianName"
+										class="form-control border border-info" value="<c:out value="${student.guardianName}"/>"
+										placeholder="" required>
+									<br>
+									<h4 class="text-left ">Guardian Job* :</h4>
+									<input type="text" name="job"
+										class="form-control border border-info" value="<c:out value="${student.guardianJob}"/>"
+										placeholder="" required>
+									<br>
+								</div>
+							</div>
+							
+							<div class="card-footer text-center ">
+								<button type="submit" name="action" value="UpdateStudent" class="btn btn-primary ">Update</button>
+							</div>
+							
+						</div>
+						</form>
+					</div>
+				</div>
 			</div>
 
 			<!-- COPYRIGHT-->
@@ -184,24 +234,6 @@
     <!-- Main JS-->
     <script src="js/main.js"></script>
     <script src="js/datatables.min.js"></script>
-
-	<script>
-		$(document).ready(function() {
-			$('#dtBasicExample').DataTable({
-				'columnDefs' : [ {
-
-					'targets' : [ 4, 5 ], // column or columns numbers
-
-					'orderable' : false, // set orderable for selected columns
-
-				} ],
-				"scrollX" : true,
-				responsive : true,
-				"bAutoWidth" : false
-			});
-			$('.dataTables_length').addClass('bs-select');
-		});
-	</script>
 
 </body>
 
