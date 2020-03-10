@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 10, 2020 at 12:47 PM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.2
+-- Generation Time: Mar 10, 2020 at 07:44 PM
+-- Server version: 10.1.40-MariaDB
+-- PHP Version: 7.3.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -39,7 +39,43 @@ CREATE TABLE `examination` (
 --
 
 INSERT INTO `examination` (`EXAMINATION_ID`, `EXAMINATION_NAME`, `EXAMINATION_DATE`) VALUES
-(1, 'Peperiksaan OTI 1', '2020-03-10');
+(1, 'Peperiksaan OTI 1', '2020-03-10'),
+(4, 'Peperiksaan TOV', '2020-05-01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `grade`
+--
+
+CREATE TABLE `grade` (
+  `GRADE_ID` int(11) NOT NULL,
+  `GRADE_NAME` varchar(20) NOT NULL,
+  `GRADE_MARK` decimal(11,2) NOT NULL,
+  `CATEGORY` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `grade`
+--
+
+INSERT INTO `grade` (`GRADE_ID`, `GRADE_NAME`, `GRADE_MARK`, `CATEGORY`) VALUES
+(1, 'A', '4.00', 1),
+(2, 'B', '3.33', 1),
+(3, 'C', '2.67', 1),
+(4, 'D', '2.00', 1),
+(5, 'E', '1.33', 1),
+(6, 'F', '0.67', 1),
+(7, 'A+', '4.00', 2),
+(8, 'A', '3.75', 2),
+(9, 'A-', '3.50', 2),
+(10, 'B+', '3.25', 2),
+(11, 'B', '3.00', 2),
+(12, 'C+', '2.75', 2),
+(13, 'C', '2.50', 2),
+(14, 'D', '2.25', 2),
+(15, 'E', '2.00', 2),
+(16, 'G', '1.75', 2);
 
 -- --------------------------------------------------------
 
@@ -63,10 +99,69 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`STUDENT_ID`, `STUDENT_IC`, `STUDENT_NAME`, `STUDENT_AGE`, `STUDENT_ADDRESS`, `CLASS_NAME`, `GUARDIAN_NAME`, `GUARDIAN_JOB`) VALUES
-(1, '3', 'Ali Baba Bin Rifa\'i', 14, 'Taman Mawar', '2 CENDIKIAWAN', 'Abu', 'Polis'),
+(1, '3', 'Ali Baba', 14, 'Taman Mawar', '2 CENDIKIAWAN', 'Abu', 'Polis'),
 (100, '3', 'a', 3, 'd', '4 DAMAI', 's', 'd'),
 (101, '3', 'a', 3, 'd', '1 ARIF', 's', 'd'),
-(102, '980519065633', 'Imran', 321, 'd', '2 BESTARI', 'Sasudin', 'A');
+(102, '980519065633', 'Imran', 321, 'd', '2 BESTARI', 'Sasudin', 'A'),
+(103, '980519065611', 'Ahmad Sasudin', 11, 'dsa', '5 BESTARI', 'Ahmad Abu', 'Polis');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `studentgrade`
+--
+
+CREATE TABLE `studentgrade` (
+  `STUDENT_ID` int(11) NOT NULL,
+  `SUBJECT_ID` int(11) NOT NULL,
+  `EXAMINATION_ID` int(11) NOT NULL,
+  `GRADE_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `studentgrade`
+--
+
+INSERT INTO `studentgrade` (`STUDENT_ID`, `SUBJECT_ID`, `EXAMINATION_ID`, `GRADE_ID`) VALUES
+(102, 10, 1, 7);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subject`
+--
+
+CREATE TABLE `subject` (
+  `SUBJECT_ID` int(11) NOT NULL,
+  `SUBJECT_NAME` varchar(100) NOT NULL,
+  `CATEGORY` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `subject`
+--
+
+INSERT INTO `subject` (`SUBJECT_ID`, `SUBJECT_NAME`, `CATEGORY`) VALUES
+(1, 'BM', 2),
+(2, 'BI', 2),
+(3, 'MATH', 2),
+(4, 'SEJ', 2),
+(5, 'PAI', 2),
+(6, 'PJK', 2),
+(7, 'FZ', 2),
+(8, 'KM', 2),
+(9, 'BIO', 2),
+(10, 'ADD MATH', 2),
+(11, 'BM (BERTULIS)', 1),
+(12, 'BM (LISAN)', 1),
+(13, 'BI (BERTULIS)', 1),
+(14, 'BI (LISAN)', 1),
+(15, 'SEJ', 1),
+(16, 'GEO', 1),
+(17, 'PAI', 1),
+(18, 'MATH', 1),
+(19, 'SC', 1),
+(20, 'KH', 1);
 
 -- --------------------------------------------------------
 
@@ -103,6 +198,33 @@ ALTER TABLE `examination`
   ADD PRIMARY KEY (`EXAMINATION_ID`);
 
 --
+-- Indexes for table `grade`
+--
+ALTER TABLE `grade`
+  ADD PRIMARY KEY (`GRADE_ID`);
+
+--
+-- Indexes for table `student`
+--
+ALTER TABLE `student`
+  ADD PRIMARY KEY (`STUDENT_ID`);
+
+--
+-- Indexes for table `studentgrade`
+--
+ALTER TABLE `studentgrade`
+  ADD PRIMARY KEY (`STUDENT_ID`,`SUBJECT_ID`,`EXAMINATION_ID`),
+  ADD KEY `STUDENTGRADE_FK2` (`SUBJECT_ID`),
+  ADD KEY `STUDENTGRADE_FK3` (`EXAMINATION_ID`),
+  ADD KEY `STUDENTGRADE_FK4` (`GRADE_ID`);
+
+--
+-- Indexes for table `subject`
+--
+ALTER TABLE `subject`
+  ADD PRIMARY KEY (`SUBJECT_ID`);
+
+--
 -- Indexes for table `teacher`
 --
 ALTER TABLE `teacher`
@@ -116,13 +238,44 @@ ALTER TABLE `teacher`
 -- AUTO_INCREMENT for table `examination`
 --
 ALTER TABLE `examination`
-  MODIFY `EXAMINATION_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `EXAMINATION_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `grade`
+--
+ALTER TABLE `grade`
+  MODIFY `GRADE_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `student`
+--
+ALTER TABLE `student`
+  MODIFY `STUDENT_ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+
+--
+-- AUTO_INCREMENT for table `subject`
+--
+ALTER TABLE `subject`
+  MODIFY `SUBJECT_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `teacher`
 --
 ALTER TABLE `teacher`
   MODIFY `TEACHER_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1005;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `studentgrade`
+--
+ALTER TABLE `studentgrade`
+  ADD CONSTRAINT `STUDENTGRADE_FK1` FOREIGN KEY (`STUDENT_ID`) REFERENCES `student` (`STUDENT_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `STUDENTGRADE_FK2` FOREIGN KEY (`SUBJECT_ID`) REFERENCES `subject` (`SUBJECT_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `STUDENTGRADE_FK3` FOREIGN KEY (`EXAMINATION_ID`) REFERENCES `examination` (`EXAMINATION_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `STUDENTGRADE_FK4` FOREIGN KEY (`GRADE_ID`) REFERENCES `grade` (`GRADE_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

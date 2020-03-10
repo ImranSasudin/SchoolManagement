@@ -119,8 +119,8 @@
 										<input type="text" name="name"
 											class="form-control border border-info" placeholder=""
 											required> <br>
-										<h4 class="text-left ">Date* :</h4>
-										<input type="date" name="date"
+										<h4 class="text-left ">Month* :</h4>
+										<input type="month" name="month"
 											class="form-control border border-info" placeholder=""
 											required> <br>
 

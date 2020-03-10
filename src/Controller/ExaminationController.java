@@ -1,11 +1,13 @@
 package Controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import Bean.Examination;
 import Dao.ExaminationDAO;
+import Dao.StudentDAO;
 
 /**
  * Servlet implementation class ExaminationController
@@ -24,6 +27,10 @@ public class ExaminationController extends HttpServlet {
 	SimpleDateFormat format;
 	DateFormat formatter; 
 	Examination exam = new Examination();
+	
+	private static String LIST_EXAMINATION = "/Examination/ListExaminations.jsp";
+	private static String LIST_STUDENTS = "/Examination/StudentList.jsp";
+	private String forward = "";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -37,8 +44,29 @@ public class ExaminationController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		String action = request.getParameter("action");
+		
+		if (action.equalsIgnoreCase("ListExaminations")) {
+			request.setAttribute("exams" , ExaminationDAO.getAllExaminations());
+			forward = LIST_EXAMINATION;
+		}
+		else if (action.equalsIgnoreCase("StudentGrade")) {
+			String examinationID = request.getParameter("id");
+			
+			request.setAttribute("students1" , StudentDAO.getAllStudentGrade1());
+			request.setAttribute("students1cgpa" , StudentDAO.getAllStudentGradeCgpa1(examinationID));
+			
+			request.setAttribute("students2" , StudentDAO.getAllStudentGrade2());
+			request.setAttribute("students2cgpa" , StudentDAO.getAllStudentGradeCgpa2(examinationID));
+			
+			request.setAttribute("examination" , ExaminationDAO.getExamination(examinationID));
+			forward = LIST_STUDENTS;
+			
+			
+		}
+		
+		RequestDispatcher view = request.getRequestDispatcher(forward);
+ 	    view.forward(request, response);
 	}
 
 	/**
@@ -50,10 +78,10 @@ public class ExaminationController extends HttpServlet {
 		if (action.equalsIgnoreCase("AddExamination")) {
 			String examinationName = request.getParameter("name");
 			
-			formatter = new SimpleDateFormat("yyyy-MM-dd");
+			formatter = new SimpleDateFormat("yyyy-MM");
 	        java.util.Date d1 = null;
 			try {
-				d1 = formatter.parse(request.getParameter("date"));
+				d1 = formatter.parse(request.getParameter("month"));
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -72,7 +100,12 @@ public class ExaminationController extends HttpServlet {
 				e.printStackTrace();
 			}
 	        
-	        
+	        response.setContentType("text/html");
+			PrintWriter pw = response.getWriter();
+			pw.println("<script>");
+			pw.println("alert('Add New Examination Success');");
+			pw.println("window.location.href='/SchoolManagement/ExaminationController?action=ListExaminations';");
+			pw.println("</script>");
 		}
 	}
 

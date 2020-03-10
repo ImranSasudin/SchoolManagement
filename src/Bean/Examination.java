@@ -3,7 +3,7 @@ package Bean;
 import java.util.Date;
 
 public class Examination {
-	String examinationID, examinationName;
+	String examinationID, examinationName, examinationDateText;
 	Date examinationDate;
 
 	public Examination(String examinationID, String examinationName, Date examinationDate) {
@@ -40,6 +40,16 @@ public class Examination {
 	public void setExaminationDate(Date examinationDate) {
 		this.examinationDate = examinationDate;
 	}
+
+	public String getExaminationDateText() {
+		return examinationDateText;
+	}
+
+	public void setExaminationDateText(String examinationDateText) {
+		this.examinationDateText = examinationDateText;
+	}
+	
+	
 	
 	
 

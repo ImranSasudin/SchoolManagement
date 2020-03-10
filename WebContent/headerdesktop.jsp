@@ -24,7 +24,7 @@
 					</a>
 						<ul class="header3-sub-list list-unstyled">
 							<li><a href="/SchoolManagement/Examination/AddExamination.jsp">Add New Examination</a></li>
-							<li><a href="index2.html">List All Examinations</a></li>
+							<li><a href="/SchoolManagement/ExaminationController?action=ListExaminations">List All Examinations</a></li>
 						</ul></li>
 
 					<li class="has-sub"><a href="#"> <i class="far fa-calendar-alt"></i>
