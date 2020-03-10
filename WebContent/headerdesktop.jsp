@@ -23,7 +23,7 @@
 							class="fas fa-copy"></i> <span class="bot-line"></span>Examination
 					</a>
 						<ul class="header3-sub-list list-unstyled">
-							<li><a href="index.html">Add New Examination</a></li>
+							<li><a href="/SchoolManagement/Examination/AddExamination.jsp">Add New Examination</a></li>
 							<li><a href="index2.html">List All Examinations</a></li>
 						</ul></li>
 

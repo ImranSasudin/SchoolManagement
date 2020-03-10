@@ -92,7 +92,7 @@ public class LoginController extends HttpServlet {
 				PrintWriter pw = response.getWriter();
 				pw.println("<script>");
 				pw.println("alert('Login Successful');");
-				pw.println("window.location.href='Student/ListStudents.jsp';");
+				pw.println("window.location.href='/SchoolManagement/StudentController?action=ListStudents';");
 				pw.println("</script>");
 			}
 			// If teacher not exist
