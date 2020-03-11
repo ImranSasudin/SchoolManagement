@@ -337,34 +337,33 @@ public class StudentDAO {
 	}
 	
 	// Get all students grade 2
-		public static List<Student> getAllStudentGradeCgpa2(String examinationID) {
-			List<Student> students = new ArrayList<Student>();
-			try {
-				currentCon = ConnectionManager.getConnection();
-				stat = currentCon.createStatement();
-				ResultSet rs = stat.executeQuery(
-						"select s.student_id, s.student_name, s.class_name, round(sum(g.grade_mark)/10,2) from student s left join studentgrade sg on (s.STUDENT_ID = sg.STUDENT_ID)\r\n "
-								+ "left join grade g on (g.GRADE_ID = sg.GRADE_ID) left join subject sub on (sub.SUBJECT_ID = sg.SUBJECT_ID) left join examination e on (e.EXAMINATION_ID = sg.EXAMINATION_ID) \r\n"
-								+ "where  ( SUBSTR(s.class_name, 1, 1) = 4 \r\n " 
-								+ "OR SUBSTR(s.class_name, 1, 1) = 5 ) \r\n AND\r\n " 
-								+ "e.EXAMINATION_ID = "
-								+ examinationID + " group by student_id ,student_name, class_name ");
+	public static List<Student> getAllStudentGradeCgpa2(String examinationID) {
+		List<Student> students = new ArrayList<Student>();
+		try {
+			currentCon = ConnectionManager.getConnection();
+			stat = currentCon.createStatement();
+			ResultSet rs = stat.executeQuery(
+					"select s.student_id, s.student_name, s.class_name, round(sum(g.grade_mark)/10,2) from student s left join studentgrade sg on (s.STUDENT_ID = sg.STUDENT_ID) "
+							+ "left join grade g on (g.GRADE_ID = sg.GRADE_ID) left join subject sub on (sub.SUBJECT_ID = sg.SUBJECT_ID) left join examination e on (e.EXAMINATION_ID = sg.EXAMINATION_ID) "
+							+ "where  ( SUBSTR(s.class_name, 1, 1) = 4 "
+							+ "OR SUBSTR(s.class_name, 1, 1) = 5 ) AND e.EXAMINATION_ID = "
+							+ examinationID + " group by student_id ,student_name, class_name ");
 
-				while (rs.next()) {
-					Student student = new Student();
-					student.setId(rs.getString(1));
-					student.setName(rs.getString(2));
-					student.setClassName(rs.getString(3));
-					student.setCgpa(rs.getString(4));
+			while (rs.next()) {
+				Student student = new Student();
+				student.setId(rs.getString(1));
+				student.setName(rs.getString(2));
+				student.setClassName(rs.getString(3));
+				student.setCgpa(rs.getString(4));
 
-					students.add(student);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+				students.add(student);
 			}
-
-			return students;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+
+		return students;
+	}
 	
 
 }

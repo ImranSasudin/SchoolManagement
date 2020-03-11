@@ -37,6 +37,12 @@
     <link href="css/theme.css" rel="stylesheet" media="all">
     <link rel="stylesheet" href="css/datatables-select.min.css">
   	<link rel="stylesheet" href="css/datatables.min.css">
+  	<style>
+	table[style]{
+	 width: 100% !important;
+	}
+	</style>
+  
 
 </head>
 
@@ -109,7 +115,7 @@
 							<div class="tab-content">
 								<div id="home" class="tab-pane fade in active">
 									<table id="dtBasicExample" style="table-layout: fixed"
-										class="table table-striped table-bordered">
+										class="display table table-striped table-bordered">
 										<thead style="">
 											<th class="th-sm">Student Name</th>
 											<th class="th-sm">Class</th>
@@ -118,70 +124,76 @@
 										</thead>
 										<tbody style="">
 											<c:forEach items="${students1}" var="s1">
-												<c:forEach items="${students1cgpa }" var="s1C">
+												<tr>
+													<td><c:out value="${s1.name}" /></td>
+													<td><c:out value="${s1.className}" /></td>
 													<c:choose>
-														<c:when test="${s1.id == s1C.id}">
-															<tr>
-																<td><c:out value="${s1.name}" /></td>
-																<td><c:out value="${s1.className}" /></td>
-																<td><c:out value="${s1C.cgpa}" /></td>
-																<td class="text-center"><a
-																	href="StudentController?action=UpdateStudent&id=<c:out value="${s.id}"/>"
-																	class="btn btn-warning">View Grade</a></td>
-															</tr>
+														<c:when test="${s1.cgpa == null}">
+															<td>No CGPA yet</td>
+															<td class="text-center"><a
+																href="StudentController?action=UpdateStudent&id=<c:out value="${s.id}"/>"
+																class="btn btn-primary">Add Grade</a></td>
 														</c:when>
 														<c:otherwise>
-															<tr>
-																<td><c:out value="${s1.name}" /></td>
-																<td><c:out value="${s1.className}" /></td>
-																<td>No CGPA yet</td>
-																<td class="text-center"><a
-																	href="StudentController?action=UpdateStudent&id=<c:out value="${s.id}"/>"
-																	class="btn btn-primary">Add Grade</a></td>
-															</tr>
+															<c:forEach items="${students1cgpa }" var="s1C">
+																<c:choose>
+																	<c:when test="${s1.id == s1C.id}">
+																		<tr>
+																			<td><c:out value="${s1C.cgpa}" /></td>
+																			<td class="text-center"><a
+																				href="StudentController?action=UpdateStudent&id=<c:out value="${s.id}"/>"
+																				class="btn btn-warning">View Grade</a></td>
+																		</tr>
+																	</c:when>
+																</c:choose>
+															</c:forEach>
 														</c:otherwise>
 													</c:choose>
-												</c:forEach>
+												</tr>
 											</c:forEach>
 										</tbody>
 									</table>
 								</div>
 
-								<div id="menu1" class="tab-pane fade">
-									<table id="dtBasicExample2" style="table-layout: fixed"
-										class="table table-striped table-bordered">
+								<div id="menu1" class="tab-pane fade active">
+									<table id="dtBasicExample2" style="width: 100% !important;"
+										class="display table table-striped table-bordered">
 										<thead style="">
+										<tr>
 											<th class="th-sm">Student Name</th>
 											<th class="th-sm">Class</th>
 											<th class="th-sm">CGPA</th>
 											<th class="th-sm"></th>
+											</tr>
 										</thead>
-										<tbody style="">
+										<tbody style="" >
 											<c:forEach items="${students2}" var="s2">
-												<c:forEach items="${students2cgpa}" var="s2C">
+												<tr>
+													<td><c:out value="${s2.name}" /></td>
+													<td><c:out value="${s2.className}" /></td>
 													<c:choose>
-														<c:when test="${s2.id == s2C.id}">
-															<tr>
-																<td><c:out value="${s2.name}" /></td>
-																<td><c:out value="${s2.className}" /></td>
-																<td><c:out value="${s2C.cgpa}" /></td>
-																<td class="text-center"><a
-																	href="StudentController?action=UpdateStudent&id=<c:out value="${s.id}"/>"
-																	class="btn btn-warning">View Grade</a></td>
-															</tr>
+														<c:when test="${s2.cgpa == null}">
+															<td>No CGPA yet</td>
+															<td class="text-center"><a
+																href="StudentController?action=UpdateStudent&id=<c:out value="${s.id}"/>"
+																class="btn btn-primary">Add Grade</a></td>
 														</c:when>
 														<c:otherwise>
-															<tr>
-																<td><c:out value="${s2.name}" /></td>
-																<td><c:out value="${s2.className}" /></td>
-																<td>No CGPA yet</td>
-																<td class="text-center"><a
-																	href="StudentController?action=UpdateStudent&id=<c:out value="${s.id}"/>"
-																	class="btn btn-primary">Add Grade</a></td>
-															</tr>
+															<c:forEach items="${students2cgpa }" var="s2C">
+																<c:choose>
+																	<c:when test="${s2.id == s2C.id}">
+																		<tr>
+																			<td><c:out value="${s2C.cgpa}" /></td>
+																			<td class="text-center"><a
+																				href="StudentController?action=UpdateStudent&id=<c:out value="${s.id}"/>"
+																				class="btn btn-warning">View Grade</a></td>
+																		</tr>
+																	</c:when>
+																</c:choose>
+															</c:forEach>
 														</c:otherwise>
 													</c:choose>
-												</c:forEach>
+												</tr>
 											</c:forEach>
 										</tbody>
 									</table>
@@ -243,7 +255,7 @@
 
 	<script>
 		$(document).ready(function() {
-			$('#dtBasicExample').DataTable({
+			/* $('#dtBasicExample').DataTable({
 				'columnDefs' : [ {
 
 					'targets' : [ 3 ], // column or columns numbers
@@ -254,8 +266,9 @@
 				"scrollX" : true,
 				responsive : true,
 				"bAutoWidth" : false
-			});
-			$('#dtBasicExample2').DataTable({
+			}); */
+			
+			$('table.display').DataTable({
 				'columnDefs' : [ {
 
 					'targets' : [ 3 ], // column or columns numbers
@@ -266,10 +279,13 @@
 				"scrollX" : true,
 				responsive : true,
 				"bAutoWidth" : false
-			});
+			}).columns.adjust();
+			
 			$('.dataTables_length').addClass('bs-select');
+			
 		});
 	</script>
+	
 
 </body>
 
