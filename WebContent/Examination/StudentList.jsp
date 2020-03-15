@@ -151,7 +151,7 @@ table[style] {
 																	<c:when test="${s1.id == s1C.id}">
 																		<td><c:out value="${s1C.cgpa}" /></td>
 																		<td class="text-center"><a
-																			href="ExaminationController?action=UpdateGrade&category=2&name=<c:out value="${s1.name}"/>&id=<c:out value="${s1.id}"/>&examID=<c:out value="${examination.examinationID}"/>"
+																			href="ExaminationController?action=UpdateGrade&category=1&name=<c:out value="${s1.name}"/>&id=<c:out value="${s1.id}"/>&examID=<c:out value="${examination.examinationID}"/>"
 																			class="btn btn-warning">View Grade</a></td>
 																	</c:when>
 																</c:choose>
@@ -193,7 +193,7 @@ table[style] {
 																	<c:when test="${s2.id == s2C.id}">
 																		<td><c:out value="${s2C.cgpa}" /></td>
 																		<td class="text-center"><a
-																			href="ExaminationController?action=UpdateGrade&category=2&name=<c:out value="${s1.name}"/>&id=<c:out value="${s2.id}"/>&examID=<c:out value="${examination.examinationID}"/>"
+																			href="ExaminationController?action=UpdateGrade&category=2&name=<c:out value="${s2.name}"/>&id=<c:out value="${s2.id}"/>&examID=<c:out value="${examination.examinationID}"/>"
 																			class="btn btn-warning">View Grade</a></td>
 																	</c:when>
 																</c:choose>

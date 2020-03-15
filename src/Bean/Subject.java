@@ -1,6 +1,6 @@
 package Bean;
 
-public class Subject {
+public class Subject extends Examination{
 	
 	String subjectID, subjectName, category;
 

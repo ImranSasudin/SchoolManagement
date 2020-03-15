@@ -36,6 +36,7 @@ public class ExaminationController extends HttpServlet {
 	private static String LIST_EXAMINATION = "/Examination/ListExaminations.jsp";
 	private static String LIST_STUDENTS = "/Examination/StudentList.jsp";
 	private static String ADD_GRADE = "/Examination/AddGrade.jsp";
+	private static String UPDATE_GRADE = "/Examination/UpdateGrade.jsp";
 	private String forward = "";
        
     /**
@@ -82,6 +83,20 @@ public class ExaminationController extends HttpServlet {
 			request.setAttribute("name", name);
 			
 			forward = ADD_GRADE;
+		}
+		else if (action.equalsIgnoreCase("UpdateGrade")) {
+			String id = request.getParameter("id");
+			String category = request.getParameter("category");
+			String name = request.getParameter("name");
+			String examinationID = request.getParameter("examID");
+			
+			request.setAttribute("examination" , ExaminationDAO.getExamination(examinationID));
+			request.setAttribute("subjectGrades", StudentGradeDAO.getAllStudentGrades(id, examinationID));
+			request.setAttribute("grades", GradeDAO.getAllGradesByCategory(category));
+			request.setAttribute("id", id);
+			request.setAttribute("name", name);
+			
+			forward = UPDATE_GRADE;
 		}
 		
 		RequestDispatcher view = request.getRequestDispatcher(forward);
@@ -152,6 +167,44 @@ public class ExaminationController extends HttpServlet {
 			PrintWriter pw = response.getWriter();
 			pw.println("<script>");
 			pw.println("alert('Add Student Grade Success');");
+			pw.println("window.location.href='/SchoolManagement/ExaminationController?action=StudentGrade&id="+ examinationID +"';");
+			pw.println("</script>");
+		}
+		else if (action.equalsIgnoreCase("UpdateGrade")) {
+			String examinationID = request.getParameter("examinationID");
+			String studentID = request.getParameter("studentID");
+			
+			String subjectId[] = request.getParameterValues("subjectID");
+			String gradeId[] = request.getParameterValues("gradeID");
+			
+			stuGrade.setExaminationID(examinationID);
+			stuGrade.setStudentID(studentID);
+			
+			// Delete current student grade
+			try {
+				StudentGradeDAO.deleteStudentGrade(stuGrade);
+			} catch (NoSuchAlgorithmException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			// Then add back
+			for(int i = 0; i<subjectId.length; i++) {
+				stuGrade.setSubjectID(subjectId[i]);
+				stuGrade.setGradeID(gradeId[i]);
+				try {
+					StudentGradeDAO.addStudentGrade(stuGrade);
+					
+				} catch (NoSuchAlgorithmException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			response.setContentType("text/html");
+			PrintWriter pw = response.getWriter();
+			pw.println("<script>");
+			pw.println("alert('Update Student Grade Success');");
 			pw.println("window.location.href='/SchoolManagement/ExaminationController?action=StudentGrade&id="+ examinationID +"';");
 			pw.println("</script>");
 		}

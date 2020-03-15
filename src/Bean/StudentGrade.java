@@ -1,6 +1,6 @@
 package Bean;
 
-public class StudentGrade {
+public class StudentGrade extends Grade {
 	String studentID, subjectID, examinationID, gradeID;
 
 	public StudentGrade() {

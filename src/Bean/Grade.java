@@ -1,6 +1,6 @@
 package Bean;
 
-public class Grade {
+public class Grade extends Subject {
 	String gradeID, gradeName, gradeMark, category;
 
 	public Grade() {
