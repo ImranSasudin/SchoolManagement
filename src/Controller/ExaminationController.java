@@ -15,8 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Bean.Examination;
+import Bean.StudentGrade;
 import Dao.ExaminationDAO;
+import Dao.GradeDAO;
 import Dao.StudentDAO;
+import Dao.StudentGradeDAO;
+import Dao.SubjectDAO;
 
 /**
  * Servlet implementation class ExaminationController
@@ -27,9 +31,11 @@ public class ExaminationController extends HttpServlet {
 	SimpleDateFormat format;
 	DateFormat formatter; 
 	Examination exam = new Examination();
+	StudentGrade stuGrade = new StudentGrade();
 	
 	private static String LIST_EXAMINATION = "/Examination/ListExaminations.jsp";
 	private static String LIST_STUDENTS = "/Examination/StudentList.jsp";
+	private static String ADD_GRADE = "/Examination/AddGrade.jsp";
 	private String forward = "";
        
     /**
@@ -62,7 +68,20 @@ public class ExaminationController extends HttpServlet {
 			request.setAttribute("examination" , ExaminationDAO.getExamination(examinationID));
 			forward = LIST_STUDENTS;
 			
+		}
+		else if (action.equalsIgnoreCase("AddGrade")) {
+			String id = request.getParameter("id");
+			String category = request.getParameter("category");
+			String name = request.getParameter("name");
+			String examinationID = request.getParameter("examID");
 			
+			request.setAttribute("examination" , ExaminationDAO.getExamination(examinationID));
+			request.setAttribute("subjects", SubjectDAO.getAllSubjectsByCategory(category));
+			request.setAttribute("grades", GradeDAO.getAllGradesByCategory(category));
+			request.setAttribute("id", id);
+			request.setAttribute("name", name);
+			
+			forward = ADD_GRADE;
 		}
 		
 		RequestDispatcher view = request.getRequestDispatcher(forward);
@@ -105,6 +124,35 @@ public class ExaminationController extends HttpServlet {
 			pw.println("<script>");
 			pw.println("alert('Add New Examination Success');");
 			pw.println("window.location.href='/SchoolManagement/ExaminationController?action=ListExaminations';");
+			pw.println("</script>");
+		}
+		else if (action.equalsIgnoreCase("AddGrade")) {
+			String examinationID = request.getParameter("examinationID");
+			String studentID = request.getParameter("studentID");
+			
+			String subjectId[] = request.getParameterValues("subjectID");
+			String gradeId[] = request.getParameterValues("gradeID");
+			
+			stuGrade.setExaminationID(examinationID);
+			stuGrade.setStudentID(studentID);
+			
+			for(int i = 0; i<subjectId.length; i++) {
+				stuGrade.setSubjectID(subjectId[i]);
+				stuGrade.setGradeID(gradeId[i]);
+				try {
+					StudentGradeDAO.addStudentGrade(stuGrade);
+					
+				} catch (NoSuchAlgorithmException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			response.setContentType("text/html");
+			PrintWriter pw = response.getWriter();
+			pw.println("<script>");
+			pw.println("alert('Add Student Grade Success');");
+			pw.println("window.location.href='/SchoolManagement/ExaminationController?action=StudentGrade&id="+ examinationID +"';");
 			pw.println("</script>");
 		}
 	}

@@ -15,28 +15,37 @@
 <!-- Title Page-->
 <title>School Management</title>
 
-	<!-- Fontfaces CSS-->
-    <link href="css/font-face.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
-    <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+<!-- Fontfaces CSS-->
+<link href="css/font-face.css" rel="stylesheet" media="all">
+<link href="vendor/font-awesome-4.7/css/font-awesome.min.css"
+	rel="stylesheet" media="all">
+<link href="vendor/font-awesome-5/css/fontawesome-all.min.css"
+	rel="stylesheet" media="all">
+<link href="vendor/mdi-font/css/material-design-iconic-font.min.css"
+	rel="stylesheet" media="all">
 
-    <!-- Bootstrap CSS-->
-    <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+<!-- Bootstrap CSS-->
+<link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet"
+	media="all">
 
-    <!-- Vendor CSS-->
-    <link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
-    <link href="vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
-    <link href="vendor/wow/animate.css" rel="stylesheet" media="all">
-    <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
-    <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
-    <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+<!-- Vendor CSS-->
+<link href="vendor/animsition/animsition.min.css" rel="stylesheet"
+	media="all">
+<link
+	href="vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css"
+	rel="stylesheet" media="all">
+<link href="vendor/wow/animate.css" rel="stylesheet" media="all">
+<link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet"
+	media="all">
+<link href="vendor/slick/slick.css" rel="stylesheet" media="all">
+<link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
+<link href="vendor/perfect-scrollbar/perfect-scrollbar.css"
+	rel="stylesheet" media="all">
 
-    <!-- Main CSS-->
-    <link href="css/theme.css" rel="stylesheet" media="all">
-    <link rel="stylesheet" href="css/datatables-select.min.css">
-  	<link rel="stylesheet" href="css/datatables.min.css">
+<!-- Main CSS-->
+<link href="css/theme.css" rel="stylesheet" media="all">
+<link rel="stylesheet" href="css/datatables-select.min.css">
+<link rel="stylesheet" href="css/datatables.min.css">
 
 </head>
 
@@ -85,7 +94,8 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-md-12">
-							<h1 class="title-4">${examination.examinationName}, ${examination.examinationDateText}</h1>
+							<h1 class="title-4">${examination.examinationName},
+								${examination.examinationDateText}</h1>
 							<hr class="line-seprate">
 						</div>
 					</div>
@@ -97,50 +107,54 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-6 mx-auto">
-					<form action="../StudentController" method="post">
-						<br>
-						<div class="card h-100">
-							<h4 class="card-header">Student Results</h4>
-							
-							<div class="card-body">
+						<form action="ExaminationController" method="post">
+							<br>
+							<div class="card h-100">
+								<h4 class="card-header">Student Result</h4>
+								<input type="hidden" name="examinationID"
+									value="${examination.examinationID}" />
+
+								<div class="card-body">
 									<div class="form-group">
 										<br />
 
 										<h4 class="text-left ">Student Name :</h4>
+										<input type="hidden" name="studentID"
+											class="" value="${id}"
+											placeholder="" readonly>
 										<input type="text" name="name"
-											class="form-control border border-info" value=""
+											class="form-control border border-info" value="${name}"
 											placeholder="" readonly> <br>
-										<h4 class="text-left ">Class* :</h4>
-										<input type="text" name="name"
-											class="form-control border border-info" value=""
-											placeholder="" readonly> <br> 
-											
-											
-										<select name="subjectId">
-										<c:forEach items="${subjects}" var="subjects">
-											<option value="${subjects.subjectId}"><c:out
-													value="${subjects.subjectName}" /></option>
+
+										<c:forEach items="${subjects}" var="subject">
+											<div class="row">
+												<div class="col-7">
+													<input type="hidden" name="subjectID" class=""
+														value="<c:out value="${subject.subjectID}"/>"> 
+													<input type="text" class="form-control border border-info"
+														value="<c:out value="${subject.subjectName}"/>" readonly />
+												</div>
+												<div class="col-2">
+													<select name="gradeID" class="form-control border border-info" required>
+														<option disabled selected value=""></option>
+														<c:forEach items="${grades}" var="grade">
+															<option value="${grade.gradeID}"><c:out
+																	value="${grade.gradeName}" /></option>
+														</c:forEach>
+													</select>
+												</div>
+											</div>
 										</c:forEach>
-										</select> <select name="grade">
-											<option value="1">A+</option>
-											<option value="2">A</option>
-											<option value="3">A-</option>
-											<option value="4">B+</option>
-											<option value="5">B</option>
-											<option value="6">C+</option>
-											<option value="7">C</option>
-											<option value="8">D</option>
-											<option value="9">E</option>
-											<option value="10">G</option>
-										</select>
+
 									</div>
 								</div>
-							
-							<div class="card-footer text-center ">
-								<button type="submit" name="action" value="RegisterStudent" class="btn btn-primary ">Register</button>
+
+								<div class="card-footer text-center ">
+									<button type="submit" name="action" value="AddGrade"
+										class="btn btn-primary ">Submit</button>
+								</div>
+
 							</div>
-							
-						</div>
 						</form>
 					</div>
 				</div>
@@ -164,29 +178,29 @@
 	</div>
 
 	<!-- Jquery JS-->
-    <script src="vendor/jquery-3.2.1.min.js"></script>
-    <!-- Bootstrap JS-->
-    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
-    <!-- Vendor JS       -->
-    <script src="vendor/slick/slick.min.js">
+	<script src="vendor/jquery-3.2.1.min.js"></script>
+	<!-- Bootstrap JS-->
+	<script src="vendor/bootstrap-4.1/popper.min.js"></script>
+	<script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+	<!-- Vendor JS       -->
+	<script src="vendor/slick/slick.min.js">
     </script>
-    <script src="vendor/wow/wow.min.js"></script>
-    <script src="vendor/animsition/animsition.min.js"></script>
-    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+	<script src="vendor/wow/wow.min.js"></script>
+	<script src="vendor/animsition/animsition.min.js"></script>
+	<script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
     </script>
-    <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="vendor/counter-up/jquery.counterup.min.js">
+	<script src="vendor/counter-up/jquery.waypoints.min.js"></script>
+	<script src="vendor/counter-up/jquery.counterup.min.js">
     </script>
-    <script src="vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="vendor/select2/select2.min.js">
+	<script src="vendor/circle-progress/circle-progress.min.js"></script>
+	<script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+	<script src="vendor/chartjs/Chart.bundle.min.js"></script>
+	<script src="vendor/select2/select2.min.js">
     </script>
 
-    <!-- Main JS-->
-    <script src="js/main.js"></script>
-    <script src="js/datatables.min.js"></script>
+	<!-- Main JS-->
+	<script src="js/main.js"></script>
+	<script src="js/datatables.min.js"></script>
 
 </body>
 
