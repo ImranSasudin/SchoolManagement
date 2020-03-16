@@ -139,7 +139,7 @@ table[style] {
 													<td><c:out value="${s1.name}" /></td>
 													<td><c:out value="${s1.className}" /></td>
 													<c:choose>
-														<c:when test="${s1.cgpa == null}">
+														<c:when test="${s1.examinationID != examination.examinationID || s1.cgpa == null}">
 															<td>No CGPA yet</td>
 															<td class="text-center"><a
 																href="ExaminationController?action=AddGrade&category=1&name=<c:out value="${s1.name}"/>&id=<c:out value="${s1.id}"/>&examID=<c:out value="${examination.examinationID}"/>"
@@ -181,7 +181,7 @@ table[style] {
 													<td><c:out value="${s2.name}" /></td>
 													<td><c:out value="${s2.className}" /></td>
 													<c:choose>
-														<c:when test="${s2.cgpa == null}">
+														<c:when test="${s2.examinationID != examination.examinationID || s2.cgpa == null}">
 															<td>No CGPA yet</td>
 															<td class="text-center"><a
 																href="ExaminationController?action=AddGrade&category=2&name=<c:out value="${s2.name}"/>&id=<c:out value="${s2.id}"/>&examID=<c:out value="${examination.examinationID}"/>"

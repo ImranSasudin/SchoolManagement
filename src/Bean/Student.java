@@ -2,7 +2,7 @@ package Bean;
 
 public class Student {
 	Integer age;
-	String id, ic, name, address, className, guardianName, guardianJob, cgpa;
+	String id, ic, name, address, className, guardianName, guardianJob, cgpa, examinationID;
 	boolean valid;
 	
 	public Student() {
@@ -102,6 +102,14 @@ public class Student {
 
 	public void setCgpa(String cgpa) {
 		this.cgpa = cgpa;
+	}
+
+	public String getExaminationID() {
+		return examinationID;
+	}
+
+	public void setExaminationID(String examinationID) {
+		this.examinationID = examinationID;
 	}
 	
 	

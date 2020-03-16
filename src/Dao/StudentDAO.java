@@ -256,18 +256,19 @@ public class StudentDAO {
 			currentCon = ConnectionManager.getConnection();
 			stat = currentCon.createStatement();
 			ResultSet rs = stat.executeQuery(
-					"select s.student_id, s.student_name, s.class_name, round(sum(g.grade_mark)/10,2) from student s left join studentgrade sg on (s.STUDENT_ID = sg.STUDENT_ID)\r\n"
+					"select s.student_id, s.student_name, s.class_name, e.examination_id, round(sum(g.grade_mark)/10,2) from student s left join studentgrade sg on (s.STUDENT_ID = sg.STUDENT_ID)\r\n"
 							+ "left join grade g on (g.GRADE_ID = sg.GRADE_ID) left join subject sub on (sub.SUBJECT_ID = sg.SUBJECT_ID) left join examination e on (e.EXAMINATION_ID = sg.EXAMINATION_ID)\r\n"
 							+ "where  SUBSTR(s.class_name, 1, 1) = 1 \r\n" + "OR SUBSTR(s.class_name, 1, 1) = 2 \r\n"
 							+ "OR SUBSTR(s.class_name, 1, 1) = 3 \r\n"
-							+ "group by student_id,student_name, class_name ");
+							+ "group by student_id,student_name, class_name, examination_id ");
 
 			while (rs.next()) {
 				Student student = new Student();
 				student.setId(rs.getString(1));
 				student.setName(rs.getString(2));
 				student.setClassName(rs.getString(3));
-				student.setCgpa(rs.getString(4));
+				student.setCgpa(rs.getString(5));
+				student.setExaminationID(rs.getString(4));
 
 				students.add(student);
 			}
@@ -285,18 +286,19 @@ public class StudentDAO {
 				currentCon = ConnectionManager.getConnection();
 				stat = currentCon.createStatement();
 				ResultSet rs = stat.executeQuery(
-						"select s.student_id, s.student_name, s.class_name, round(sum(g.grade_mark)/10,2) from student s left join studentgrade sg on (s.STUDENT_ID = sg.STUDENT_ID)\r\n"
+						"select s.student_id, s.student_name, s.class_name, e.examination_id, round(sum(g.grade_mark)/10,2) from student s left join studentgrade sg on (s.STUDENT_ID = sg.STUDENT_ID)\r\n"
 								+ "left join grade g on (g.GRADE_ID = sg.GRADE_ID) left join subject sub on (sub.SUBJECT_ID = sg.SUBJECT_ID) left join examination e on (e.EXAMINATION_ID = sg.EXAMINATION_ID)\r\n"
 								+ "where  SUBSTR(s.class_name, 1, 1) = 4  \r\n"
 								+ "OR SUBSTR(s.class_name, 1, 1) = 5  \r\n"
-								+ "group by student_id,student_name, class_name ");
+								+ "group by student_id,student_name, class_name, examination_id ");
 
 				while (rs.next()) {
 					Student student = new Student();
 					student.setId(rs.getString(1));
 					student.setName(rs.getString(2));
 					student.setClassName(rs.getString(3));
-					student.setCgpa(rs.getString(4));
+					student.setCgpa(rs.getString(5));
+					student.setExaminationID(rs.getString(4));
 
 					students.add(student);
 				}

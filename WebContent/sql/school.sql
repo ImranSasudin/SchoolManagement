@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 10, 2020 at 07:44 PM
+-- Generation Time: Mar 16, 2020 at 06:08 PM
 -- Server version: 10.1.40-MariaDB
 -- PHP Version: 7.3.5
 
@@ -21,6 +21,26 @@ SET time_zone = "+00:00";
 --
 -- Database: `school`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `event`
+--
+
+CREATE TABLE `event` (
+  `EVENT_ID` int(11) NOT NULL,
+  `EVENT_NAME` varchar(250) NOT NULL,
+  `EVENT_PLACE` varchar(250) NOT NULL,
+  `EVENT_DATE` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `event`
+--
+
+INSERT INTO `event` (`EVENT_ID`, `EVENT_NAME`, `EVENT_PLACE`, `EVENT_DATE`) VALUES
+(1, 'Kem Matematik', 'Hotel Sri Malaysia', '2020-03-16');
 
 -- --------------------------------------------------------
 
@@ -123,7 +143,46 @@ CREATE TABLE `studentgrade` (
 --
 
 INSERT INTO `studentgrade` (`STUDENT_ID`, `SUBJECT_ID`, `EXAMINATION_ID`, `GRADE_ID`) VALUES
-(102, 10, 1, 7);
+(1, 11, 1, 1),
+(1, 12, 1, 1),
+(1, 14, 1, 1),
+(1, 16, 1, 1),
+(1, 17, 1, 1),
+(1, 18, 1, 1),
+(1, 19, 1, 1),
+(1, 20, 1, 1),
+(102, 11, 4, 1),
+(102, 12, 4, 1),
+(102, 13, 4, 1),
+(102, 14, 4, 1),
+(102, 15, 4, 1),
+(102, 17, 4, 1),
+(102, 19, 4, 1),
+(102, 20, 4, 1),
+(102, 16, 4, 2),
+(102, 18, 4, 2),
+(1, 15, 1, 4),
+(1, 13, 1, 6),
+(103, 2, 4, 7),
+(103, 1, 4, 8),
+(103, 5, 4, 8),
+(103, 1, 1, 9),
+(103, 4, 1, 9),
+(103, 3, 1, 10),
+(103, 4, 4, 10),
+(103, 7, 1, 10),
+(103, 8, 1, 10),
+(103, 9, 1, 10),
+(103, 3, 4, 11),
+(103, 5, 1, 11),
+(103, 2, 1, 12),
+(103, 10, 4, 13),
+(103, 6, 4, 14),
+(103, 9, 4, 15),
+(103, 10, 1, 15),
+(103, 6, 1, 16),
+(103, 7, 4, 16),
+(103, 8, 4, 16);
 
 -- --------------------------------------------------------
 
@@ -192,6 +251,12 @@ INSERT INTO `teacher` (`TEACHER_ID`, `PASSWORD`, `TEACHER_NAME`, `CLASS_HANDLE`,
 --
 
 --
+-- Indexes for table `event`
+--
+ALTER TABLE `event`
+  ADD PRIMARY KEY (`EVENT_ID`);
+
+--
 -- Indexes for table `examination`
 --
 ALTER TABLE `examination`
@@ -233,6 +298,12 @@ ALTER TABLE `teacher`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `event`
+--
+ALTER TABLE `event`
+  MODIFY `EVENT_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `examination`

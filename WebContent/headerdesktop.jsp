@@ -31,8 +31,8 @@
 							<span class="bot-line"></span>Event
 					</a>
 						<ul class="header3-sub-list list-unstyled">
-							<li><a href="login.html">Add New Event</a></li>
-							<li><a href="register.html">List All Events</a></li>
+							<li><a href="/SchoolManagement/Event/AddEvent.jsp">Add New Event</a></li>
+							<li><a href="/SchoolManagement/EventController?action=ListEvent">List All Events</a></li>
 						</ul>
 					</li>
 					<li><a href="table.html"> <i class="fas fa-trophy"></i> <span
