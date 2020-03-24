@@ -1,6 +1,14 @@
-<% Integer userID = (Integer) session.getAttribute("userIDSession"); %>
-<% String userName = (String) session.getAttribute("userNameSession"); %>
-<% String role = (String) session.getAttribute("userRoleSession"); %>
+<% String role = (String) session.getAttribute("userRoleSession");
+String userIDStudent = null;
+Integer userID = null;
+if (role.equalsIgnoreCase("Student")){
+	userIDStudent = (String) session.getAttribute("userIDSession");
+}
+else if (role.equalsIgnoreCase("Teacher")){
+	userID = (Integer) session.getAttribute("userIDSession");
+}
+ String userName = (String) session.getAttribute("userNameSession"); %>
+
 
 <header class="header-desktop3 d-none d-lg-block">
 	<div class="section__content section__content--p35">
@@ -11,6 +19,7 @@
 				</a>
 			</div>
 			<div class="header__navbar">
+			<% if(role.equalsIgnoreCase("Teacher")){ %>
 				<ul class="list-unstyled">
 					<li class="has-sub"><a href="#"> <i
 							class="fas fa-graduation-cap"></i>Student <span class="bot-line"></span>
@@ -47,8 +56,8 @@
 							<li><a href="/SchoolManagement/TeacherController?action=ListTeachers">List All Teachers</a></li>
 						</ul>
 					</li>
-
 				</ul>
+			<% } %>
 			</div>
 			<div class="header__tool">
 				<div class="account-wrap">
@@ -71,17 +80,43 @@
 									<h5 class="name">
 										<a href="#"><%=userName %></a>
 									</h5>
-									<span class="email">ID : <%=userID %></span>
+									<%
+										if (role.equalsIgnoreCase("Teacher")) {
+									%>
+									<span class="email">ID : <%=userID%></span>
+									<%
+										} else if (role.equalsIgnoreCase("Student")) {
+									%>
+									<span class="email">ID : <%=userIDStudent%></span>
+									<%
+										}
+									%>
+
 								</div>
 							</div>
 							<div class="account-dropdown__body">
+								<%
+									if (role.equalsIgnoreCase("Teacher")) {
+								%>
 								<div class="account-dropdown__item">
-									<a href="/SchoolManagement/LoginController?action=Account&ID=<%=userID %>"> <i class="zmdi zmdi-account"></i>Account
+									<a
+										href="/SchoolManagement/LoginController?action=Account&ID=<%=userID%>">
+										<i class="zmdi zmdi-account"></i>Account
 									</a>
 								</div>
+								<%
+									} else if (role.equalsIgnoreCase("Student")) {
+								%>
+								<div class="account-dropdown__item">
+									<a
+										href="/SchoolManagement/LoginController?action=Account&ID=<%=userIDStudent%>">
+										<i class="zmdi zmdi-account"></i>Account
+									</a>
+								</div>
+								<% } %>
 							</div>
 							<div class="account-dropdown__footer">
-								<a href="#"> <i class="zmdi zmdi-power"></i>Logout
+								<a href="/SchoolManagement/LoginController?action=Logout" onclick="return confirm('are you sure?')"> <i class="zmdi zmdi-power"></i>Logout
 								</a>
 							</div>
 						</div>

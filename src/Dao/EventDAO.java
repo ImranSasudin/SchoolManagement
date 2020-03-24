@@ -87,4 +87,30 @@ public class EventDAO {
 
 		return events;
 	}
+	
+	// Get all events
+	public static List<Event> getAllJoinedEvents(String id) {
+		List<Event> events = new ArrayList<Event>();
+		try {
+			currentCon = ConnectionManager.getConnection();
+			stat = currentCon.createStatement();
+			ResultSet rs = stat.executeQuery(
+					"select e.event_id, e.event_name, e.event_place, date_format(e.event_date,\"%D %M, %Y\") from event e "
+					+ "join studentevent se on (e.event_id = se.event_id) where se.student_id = '"+ id +"'");
+
+			while (rs.next()) {
+				Event event = new Event();
+				event.setEventID(rs.getString(1));
+				event.setEventName(rs.getString(2));
+				event.setEventDateText(rs.getString(4));
+				event.setEventPlace(rs.getString(3));
+
+				events.add(event);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return events;
+	}
 }

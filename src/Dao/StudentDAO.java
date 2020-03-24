@@ -22,6 +22,72 @@ public class StudentDAO {
 	static String id, ic, name, address, className, guardianName, guardianJob;
 	boolean valid;
 
+	// Student Login
+	public static Student login(Student bean) throws NoSuchAlgorithmException {
+
+		id = bean.getId();
+		ic = bean.getIc();
+
+		try {
+			currentCon = ConnectionManager.getConnection();
+
+			ps = currentCon.prepareStatement("select * from student where student_id = ? AND student_ic = ?");
+			ps.setString(1, id);
+			ps.setString(2, ic);
+
+			rs = ps.executeQuery();
+
+			boolean more = rs.next();
+
+			// if user exists set the isValid variable to true
+			if (more) {
+				bean.setId(rs.getString("student_id"));
+				bean.setName(rs.getString("student_name"));
+				bean.setValid(true);
+			}
+
+			// if user does not exist set the isValid variable to false
+			else if (!more) {
+				System.out.println("Sorry, you are not a registered teacher! Please sign up first");
+				bean.setValid(false);
+			}
+
+		}
+
+		catch (Exception ex) {
+			System.out.println("Log In failed: An Exception has occurred! " + ex);
+		}
+
+		finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e) {
+				}
+				rs = null;
+			}
+
+			if (stat != null) {
+				try {
+					stat.close();
+				} catch (Exception e) {
+				}
+				stat = null;
+			}
+
+			if (currentCon != null) {
+				try {
+					currentCon.close();
+				} catch (Exception e) {
+				}
+
+				currentCon = null;
+			}
+		}
+
+		return bean;
+	}
+
 	// Register New Student
 	public static void add(Student bean) throws NoSuchAlgorithmException {
 		age = bean.getAge();

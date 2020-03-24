@@ -10,8 +10,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Bean.Student;
+import Dao.EventDAO;
 import Dao.StudentDAO;
 import Dao.StudentGradeDAO;
 
@@ -23,6 +25,7 @@ public class StudentController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Student student = new Student();
 	
+	private static String LIST_JOINED_EVENT = "/Event/ListStudentEvent.jsp";
 	private static String LIST_STUDENT = "/Student/ListStudents.jsp";
 	private static String UPDATE_STUDENT = "/Student/UpdateStudent.jsp";
 	private static String PERFORMANCE = "/Student/Performance.jsp";
@@ -44,6 +47,7 @@ public class StudentController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getParameter("action");
+		HttpSession session = request.getSession(true);
 		
 		if (action.equalsIgnoreCase("ListStudents")) {
 			request.setAttribute("students" , StudentDAO.getAllStudents());
@@ -81,6 +85,12 @@ public class StudentController extends HttpServlet {
 			request.setAttribute("studentGrades", StudentGradeDAO.getStudentGrade(id));
 			request.setAttribute("form", form);
 			request.setAttribute("formClass", formClass);
+		} // Joined event
+		else if (action.equalsIgnoreCase("Home")) {
+			String id = (String) session.getAttribute("userIDSession");
+			
+			request.setAttribute("events" , EventDAO.getAllJoinedEvents(id));
+			forward = LIST_JOINED_EVENT;
 		}
 		
 		RequestDispatcher view = request.getRequestDispatcher(forward);

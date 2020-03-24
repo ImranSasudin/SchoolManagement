@@ -173,12 +173,12 @@ translateY
 							<div class="row register-form">
 								<div class="col-md-6 mx-auto">
 									<div class="form-group">
-										<input type="number" name="studentID" class="form-control"
+										<input type="number" name="id" class="form-control"
 											placeholder="Student ID *" required />
 									</div>
 									<div class="form-group">
-										<input type="password" name="studentPassword"
-											class="form-control" placeholder="Password *" required />
+										<input type="number" name="ic"
+											class="form-control" placeholder="IC Number *" required />
 									</div>
 									<button type="submit" class="btnRegister" name="action"
 										value="StudentLogin">Login</button>
