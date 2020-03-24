@@ -134,32 +134,29 @@ table[style] {
 											</tr>
 										</thead>
 										<tbody style="">
+										
 											<c:forEach items="${students1}" var="s1">
 												<tr>
 													<td><c:out value="${s1.name}" /></td>
 													<td><c:out value="${s1.className}" /></td>
-													<c:choose>
-														<c:when test="${s1.examinationID != examination.examinationID || s1.cgpa == null}">
-															<td>No CGPA yet</td>
-															<td class="text-center"><a
-																href="ExaminationController?action=AddGrade&category=1&name=<c:out value="${s1.name}"/>&id=<c:out value="${s1.id}"/>&examID=<c:out value="${examination.examinationID}"/>"
-																class="btn btn-primary">Add Grade</a></td>
-														</c:when>
-														<c:otherwise>
-															<c:forEach items="${students1cgpa }" var="s1C">
-																<c:choose>
-																	<c:when test="${s1.id == s1C.id}">
-																		<td><c:out value="${s1C.cgpa}" /></td>
-																		<td class="text-center"><a
-																			href="ExaminationController?action=UpdateGrade&category=1&name=<c:out value="${s1.name}"/>&id=<c:out value="${s1.id}"/>&examID=<c:out value="${examination.examinationID}"/>"
-																			class="btn btn-warning">View Grade</a></td>
-																	</c:when>
-																</c:choose>
-															</c:forEach>
-														</c:otherwise>
-													</c:choose>
+													<td>No CGPA yet</td>
+													<td class="text-center"><a
+														href="ExaminationController?action=AddGrade&category=1&name=<c:out value="${s1.name}"/>&id=<c:out value="${s1.id}"/>&examID=<c:out value="${examination.examinationID}"/>"
+														class="btn btn-primary">Add Grade</a></td>
 												</tr>
 											</c:forEach>
+
+											<c:forEach items="${students1cgpa }" var="s1C">
+												<tr>
+													<td><c:out value="${s1C.name}" /></td>
+													<td><c:out value="${s1C.className}" /></td>
+													<td><c:out value="${s1C.cgpa}" /></td>
+													<td class="text-center"><a
+														href="ExaminationController?action=UpdateGrade&category=1&name=<c:out value="${s1C.name}"/>&id=<c:out value="${s1C.id}"/>&examID=<c:out value="${examination.examinationID}"/>"
+														class="btn btn-warning">View Grade</a></td>
+												</tr>
+											</c:forEach>
+
 										</tbody>
 									</table>
 								</div>
@@ -180,26 +177,21 @@ table[style] {
 												<tr>
 													<td><c:out value="${s2.name}" /></td>
 													<td><c:out value="${s2.className}" /></td>
-													<c:choose>
-														<c:when test="${s2.examinationID != examination.examinationID || s2.cgpa == null}">
-															<td>No CGPA yet</td>
-															<td class="text-center"><a
-																href="ExaminationController?action=AddGrade&category=2&name=<c:out value="${s2.name}"/>&id=<c:out value="${s2.id}"/>&examID=<c:out value="${examination.examinationID}"/>"
-																class="btn btn-primary">Add Grade</a></td>
-														</c:when>
-														<c:otherwise>
-															<c:forEach items="${students2cgpa }" var="s2C">
-																<c:choose>
-																	<c:when test="${s2.id == s2C.id}">
-																		<td><c:out value="${s2C.cgpa}" /></td>
-																		<td class="text-center"><a
-																			href="ExaminationController?action=UpdateGrade&category=2&name=<c:out value="${s2.name}"/>&id=<c:out value="${s2.id}"/>&examID=<c:out value="${examination.examinationID}"/>"
-																			class="btn btn-warning">View Grade</a></td>
-																	</c:when>
-																</c:choose>
-															</c:forEach>
-														</c:otherwise>
-													</c:choose>
+													<td>No CGPA yet</td>
+													<td class="text-center"><a
+														href="ExaminationController?action=AddGrade&category=1&name=<c:out value="${s2.name}"/>&id=<c:out value="${s2.id}"/>&examID=<c:out value="${examination.examinationID}"/>"
+														class="btn btn-primary">Add Grade</a></td>
+												</tr>
+											</c:forEach>
+
+											<c:forEach items="${students2cgpa }" var="s2C">
+												<tr>
+													<td><c:out value="${s2C.name}" /></td>
+													<td><c:out value="${s2C.className}" /></td>
+													<td><c:out value="${s2C.cgpa}" /></td>
+													<td class="text-center"><a
+														href="ExaminationController?action=UpdateGrade&category=1&name=<c:out value="${s2C.name}"/>&id=<c:out value="${s2C.id}"/>&examID=<c:out value="${examination.examinationID}"/>"
+														class="btn btn-warning">View Grade</a></td>
 												</tr>
 											</c:forEach>
 										</tbody>

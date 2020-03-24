@@ -60,10 +60,10 @@ public class ExaminationController extends HttpServlet {
 		else if (action.equalsIgnoreCase("StudentGrade")) {
 			String examinationID = request.getParameter("id");
 			
-			request.setAttribute("students1" , StudentDAO.getAllStudentGrade1());
+			request.setAttribute("students1" , StudentDAO.getAllStudentGrade1(examinationID));
 			request.setAttribute("students1cgpa" , StudentDAO.getAllStudentGradeCgpa1(examinationID));
 			
-			request.setAttribute("students2" , StudentDAO.getAllStudentGrade2());
+			request.setAttribute("students2" , StudentDAO.getAllStudentGrade2(examinationID));
 			request.setAttribute("students2cgpa" , StudentDAO.getAllStudentGradeCgpa2(examinationID));
 			
 			request.setAttribute("examination" , ExaminationDAO.getExamination(examinationID));
