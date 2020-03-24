@@ -113,6 +113,32 @@ public class EventDAO {
 
 		return event;
 	}
+
+	// Get all events
+	public static Event getEventByIDtoSort(String id) {
+		Event event = new Event();
+		try {
+			currentCon = ConnectionManager.getConnection();
+			stat = currentCon.createStatement();
+			ResultSet rs = stat.executeQuery(
+					"select event_id, event_name, event_place, date_format(event_date,\"%D %M, %Y\") from event where event_id = '"
+							+ id + "' ");
+
+			if (rs.next()) {
+				event.setValid(true);
+				event.setEventID(rs.getString(1));
+				event.setEventName(rs.getString(2));
+				event.setEventDateText(rs.getString(4));
+				event.setEventPlace(rs.getString(3));
+			} else {
+				event.setValid(false);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return event;
+	}
 	
 	// Get all events
 	public static List<Event> getAllJoinedEvents(String id) {

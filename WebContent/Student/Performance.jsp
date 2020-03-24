@@ -97,7 +97,7 @@
 			<!-- CONTENT -->
 			<div class="container">
 				<div class="row">
-					<div class="col-8 mx-auto">
+					<div class="col-11 mx-auto">
 					<form action="../StudentController" method="post">
 						<br>
 						<div class="card h-100">
@@ -105,6 +105,7 @@
 
 								<div class="card-body">
 									<!-- Graph -->
+									
 									<canvas id="myChart" width="400" height="200"></canvas>
 									
 								</div>

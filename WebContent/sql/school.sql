@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 16, 2020 at 06:08 PM
+-- Generation Time: Mar 24, 2020 at 08:09 PM
 -- Server version: 10.1.40-MariaDB
 -- PHP Version: 7.3.5
 
@@ -40,7 +40,8 @@ CREATE TABLE `event` (
 --
 
 INSERT INTO `event` (`EVENT_ID`, `EVENT_NAME`, `EVENT_PLACE`, `EVENT_DATE`) VALUES
-(1, 'Kem Matematik', 'Hotel Sri Malaysia', '2020-03-16');
+(1, 'Kem Matematik', 'Hotel Sri Malaysia', '2020-03-16'),
+(2, 'Kem Jawi', 'Surau Sekolah', '2020-04-09');
 
 -- --------------------------------------------------------
 
@@ -59,8 +60,10 @@ CREATE TABLE `examination` (
 --
 
 INSERT INTO `examination` (`EXAMINATION_ID`, `EXAMINATION_NAME`, `EXAMINATION_DATE`) VALUES
-(1, 'Peperiksaan OTI 1', '2020-03-10'),
-(4, 'Peperiksaan TOV', '2020-05-01');
+(1, 'OTI 1', '2020-03-10'),
+(4, 'TOV', '2020-05-01'),
+(5, 'OTI 2', '2020-06-01'),
+(6, 'OTI 3', '2020-07-01');
 
 -- --------------------------------------------------------
 
@@ -119,11 +122,31 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`STUDENT_ID`, `STUDENT_IC`, `STUDENT_NAME`, `STUDENT_AGE`, `STUDENT_ADDRESS`, `CLASS_NAME`, `GUARDIAN_NAME`, `GUARDIAN_JOB`) VALUES
-(1, '3', 'Ali Baba', 14, 'Taman Mawar', '2 CENDIKIAWAN', 'Abu', 'Polis'),
-(100, '3', 'a', 3, 'd', '4 DAMAI', 's', 'd'),
-(101, '3', 'a', 3, 'd', '1 ARIF', 's', 'd'),
-(102, '980519065633', 'Imran', 321, 'd', '2 BESTARI', 'Sasudin', 'A'),
-(103, '980519065611', 'Ahmad Sasudin', 11, 'dsa', '5 BESTARI', 'Ahmad Abu', 'Polis');
+(1, '980519065612', 'Ali Baba', 14, 'Taman Mawar', '2 CENDIKIAWAN', 'Abu', 'Polis'),
+(100, '980519065613', 'Siti', 3, 'd', '4 DAMAI', 's', 'd'),
+(101, '980519065614', 'Sameon', 3, 'd', '1 ARIF', 's', 'd'),
+(102, '980519065633', 'Imran', 16, 'Terengganu', '2 BESTARI', 'Sasudin', 'A'),
+(103, '980519065611', 'Ahmad', 11, 'dsa', '5 BESTARI', 'Ahmad Abu', 'Polis');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `studentevent`
+--
+
+CREATE TABLE `studentevent` (
+  `STUDENT_ID` int(11) NOT NULL,
+  `EVENT_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `studentevent`
+--
+
+INSERT INTO `studentevent` (`STUDENT_ID`, `EVENT_ID`) VALUES
+(101, 1),
+(102, 1),
+(102, 2);
 
 -- --------------------------------------------------------
 
@@ -144,45 +167,65 @@ CREATE TABLE `studentgrade` (
 
 INSERT INTO `studentgrade` (`STUDENT_ID`, `SUBJECT_ID`, `EXAMINATION_ID`, `GRADE_ID`) VALUES
 (1, 11, 1, 1),
-(1, 12, 1, 1),
-(1, 14, 1, 1),
 (1, 16, 1, 1),
-(1, 17, 1, 1),
-(1, 18, 1, 1),
-(1, 19, 1, 1),
-(1, 20, 1, 1),
+(102, 11, 1, 1),
 (102, 11, 4, 1),
+(102, 11, 5, 1),
 (102, 12, 4, 1),
-(102, 13, 4, 1),
-(102, 14, 4, 1),
-(102, 15, 4, 1),
-(102, 17, 4, 1),
-(102, 19, 4, 1),
-(102, 20, 4, 1),
-(102, 16, 4, 2),
+(102, 12, 5, 1),
+(102, 13, 5, 1),
+(102, 14, 5, 1),
+(102, 15, 5, 1),
+(102, 16, 5, 1),
+(102, 17, 1, 1),
+(102, 17, 5, 1),
+(102, 18, 5, 1),
+(102, 19, 5, 1),
+(102, 20, 5, 1),
+(103, 11, 1, 1),
+(1, 12, 1, 2),
+(1, 13, 1, 2),
+(1, 14, 1, 2),
+(1, 18, 1, 2),
+(102, 12, 1, 2),
+(102, 13, 4, 2),
+(102, 15, 1, 2),
+(102, 17, 4, 2),
+(102, 18, 1, 2),
 (102, 18, 4, 2),
-(1, 15, 1, 4),
-(1, 13, 1, 6),
-(103, 2, 4, 7),
-(103, 1, 4, 8),
-(103, 5, 4, 8),
-(103, 1, 1, 9),
-(103, 4, 1, 9),
-(103, 3, 1, 10),
-(103, 4, 4, 10),
-(103, 7, 1, 10),
-(103, 8, 1, 10),
-(103, 9, 1, 10),
-(103, 3, 4, 11),
-(103, 5, 1, 11),
-(103, 2, 1, 12),
-(103, 10, 4, 13),
-(103, 6, 4, 14),
-(103, 9, 4, 15),
-(103, 10, 1, 15),
-(103, 6, 1, 16),
-(103, 7, 4, 16),
-(103, 8, 4, 16);
+(103, 12, 1, 2),
+(103, 16, 1, 2),
+(103, 19, 1, 2),
+(1, 15, 1, 3),
+(1, 17, 1, 3),
+(1, 20, 1, 3),
+(102, 14, 1, 3),
+(102, 14, 4, 3),
+(102, 15, 4, 3),
+(102, 16, 4, 3),
+(102, 20, 1, 3),
+(103, 15, 1, 3),
+(102, 13, 6, 4),
+(102, 15, 6, 4),
+(102, 16, 1, 4),
+(102, 18, 6, 4),
+(102, 20, 4, 4),
+(103, 14, 1, 4),
+(103, 17, 1, 4),
+(1, 19, 1, 5),
+(102, 12, 6, 5),
+(102, 13, 1, 5),
+(102, 14, 6, 5),
+(102, 17, 6, 5),
+(102, 19, 1, 5),
+(102, 20, 6, 5),
+(103, 13, 1, 5),
+(103, 18, 1, 5),
+(102, 11, 6, 6),
+(102, 16, 6, 6),
+(102, 19, 4, 6),
+(102, 19, 6, 6),
+(103, 20, 1, 6);
 
 -- --------------------------------------------------------
 
@@ -275,6 +318,13 @@ ALTER TABLE `student`
   ADD PRIMARY KEY (`STUDENT_ID`);
 
 --
+-- Indexes for table `studentevent`
+--
+ALTER TABLE `studentevent`
+  ADD PRIMARY KEY (`STUDENT_ID`,`EVENT_ID`),
+  ADD KEY `STUDENTEVENT_FK2` (`EVENT_ID`);
+
+--
 -- Indexes for table `studentgrade`
 --
 ALTER TABLE `studentgrade`
@@ -303,13 +353,13 @@ ALTER TABLE `teacher`
 -- AUTO_INCREMENT for table `event`
 --
 ALTER TABLE `event`
-  MODIFY `EVENT_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `EVENT_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `examination`
 --
 ALTER TABLE `examination`
-  MODIFY `EXAMINATION_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `EXAMINATION_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `grade`
@@ -338,6 +388,13 @@ ALTER TABLE `teacher`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `studentevent`
+--
+ALTER TABLE `studentevent`
+  ADD CONSTRAINT `STUDENTEVENT_FK1` FOREIGN KEY (`STUDENT_ID`) REFERENCES `student` (`STUDENT_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `STUDENTEVENT_FK2` FOREIGN KEY (`EVENT_ID`) REFERENCES `event` (`EVENT_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `studentgrade`

@@ -100,23 +100,34 @@
 			<section class="welcome p-t-10">
 				<div class="container">
 					<div class="row">
-						<div class="col-lg-9 mx-auto">
+						<div class="col-lg-12 mx-auto">
 							<table id="dtBasicExample" style="table-layout:fixed"
 								class="table table-striped table-bordered">
 								<thead style="">
+									<tr>
+										<th class="th-sm">Event ID</th>
 										<th class="th-sm">Event Name</th>
 										<th class="th-sm">Place</th>
 										<th class="th-sm">Date</th>
 										<th class="th-sm"></th>
+									</tr>
 								</thead>
 								<tbody style="">
 									<c:forEach items="${events}" var="e">
 										<tr>
+											<td><c:out value="${e.eventID}" /></td>
 											<td><c:out value="${e.eventName}" /></td>
 											<td><c:out value="${e.eventPlace}" /></td>
 											<td><c:out value="${e.eventDateText}" /></td>
-											<td class="text-center"><a href="ExaminationController?action=StudentGrade&id=<c:out value="${e.eventID}"/>"
-											 class="btn btn-success">View Joined Students</a></td>
+											<td class="text-center" ><button type="button" class="btn btn-success"
+											data-container="body" data-toggle="popover" data-placement="right"
+											data-content='Based On:-<br>
+											<c:forEach items="${examinations}" var="exam">
+											<a class="badge badge-primary" href="EventController?action=ViewJoinedStudent&eventID=<c:out value="${e.eventID}" />&examinationID=<c:out value="${exam.examinationID}" />">
+											${exam.examinationName} | ${exam.examinationDateText}</a><br>
+											</c:forEach>
+											'
+											>View Joined Students</button></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -125,7 +136,7 @@
 					</div>
 				</div>
 			</section>
-			<!-- END WELCOME-->
+			<!-- END WELCOME href="EventController?action=ViewJoinedStudent&id=<c:out value="${e.eventID}"/>"-->
 
 			<!-- CONTENT -->
 			<div class="container">
@@ -176,10 +187,19 @@
 
 	<script>
 		$(document).ready(function() {
+			$(function () {
+				  $('[data-toggle=popover]').popover({
+					  html:true,
+					  container: 'body',
+					  placement: 'right'
+					  })
+					
+				})
+				
 			$('#dtBasicExample').DataTable({
 				'columnDefs' : [ {
 
-					'targets' : [ 3 ], // column or columns numbers
+					'targets' : [ 4 ], // column or columns numbers
 
 					'orderable' : false, // set orderable for selected columns
 

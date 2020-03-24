@@ -147,9 +147,9 @@ public class StudentDAO {
 			currentCon = ConnectionManager.getConnection();
 			ps = currentCon.prepareStatement("select * from student where student_ic = ? ");
 			ps.setString(1, ic);
-			
+
 			rs = ps.executeQuery();
-			
+
 			boolean more = rs.next();
 
 			// if student exists set the isValid variable to true
@@ -198,7 +198,7 @@ public class StudentDAO {
 
 		return bean;
 	}
-	
+
 	// Get student by student id
 	public static Student getUserByID(String id) {
 
@@ -230,64 +230,58 @@ public class StudentDAO {
 		return student;
 	}
 
-	
 	// Update Student
-		public static void update(Student bean) throws NoSuchAlgorithmException {
-			age = bean.getAge();
-			id = bean.getId();
-			//ic = bean.getIc();
-			name = bean.getName();
-			className = bean.getClassName();
-			guardianName = bean.getGuardianName();
-			guardianJob = bean.getGuardianJob();
-			address = bean.getAddress();
+	public static void update(Student bean) throws NoSuchAlgorithmException {
+		age = bean.getAge();
+		id = bean.getId();
+		// ic = bean.getIc();
+		name = bean.getName();
+		className = bean.getClassName();
+		guardianName = bean.getGuardianName();
+		guardianJob = bean.getGuardianJob();
+		address = bean.getAddress();
 
-			try {
-				currentCon = ConnectionManager.getConnection();
+		try {
+			currentCon = ConnectionManager.getConnection();
 
-				ps = currentCon.prepareStatement(
-						"UPDATE student set student_name = ?," 
-						+ "student_age = ?,"
-						+ "student_address = ?,"
-						+ "class_name = ?,"
-						+ "guardian_name = ?,"
-						+ "guardian_job = ?"
-						+ " where student_id = ? ");
+			ps = currentCon.prepareStatement(
+					"UPDATE student set student_name = ?," + "student_age = ?," + "student_address = ?,"
+							+ "class_name = ?," + "guardian_name = ?," + "guardian_job = ?" + " where student_id = ? ");
 
-				ps.setString(1, name);
-				ps.setInt(2, age);
-				ps.setString(3, address);
-				ps.setString(4, className);
-				ps.setString(5, guardianName);
-				ps.setString(6, guardianJob);
-				ps.setString(7, id);
-				
-				ps.executeUpdate();
+			ps.setString(1, name);
+			ps.setInt(2, age);
+			ps.setString(3, address);
+			ps.setString(4, className);
+			ps.setString(5, guardianName);
+			ps.setString(6, guardianJob);
+			ps.setString(7, id);
 
-			}
+			ps.executeUpdate();
 
-			catch (Exception ex) {
-				System.out.println("failed: An Exception has occured!" + ex);
-			}
+		}
 
-			finally {
-				if (ps != null) {
+		catch (Exception ex) {
+			System.out.println("failed: An Exception has occured!" + ex);
+		}
+
+		finally {
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (Exception e) {
+					ps = null;
+				}
+				if (currentCon != null) {
 					try {
-						ps.close();
-					} catch (Exception e) {
-						ps = null;
-					}
-					if (currentCon != null) {
-						try {
-							currentCon.close();
-						} catch (Exception e_) {
-							currentCon = null;
-						}
+						currentCon.close();
+					} catch (Exception e_) {
+						currentCon = null;
 					}
 				}
 			}
 		}
-	
+	}
+
 	// Get all students
 	public static List<Student> getAllStudents() {
 		List<Student> students = new ArrayList<Student>();
@@ -315,7 +309,7 @@ public class StudentDAO {
 
 		return students;
 	}
-	
+
 //	// Get all students grade 1 (PT3)
 //	public static List<Student> getAllStudentGrade1() {
 //		List<Student> students = new ArrayList<Student>();
@@ -345,115 +339,172 @@ public class StudentDAO {
 //
 //		return students;
 //	}
+
+//	Get all joineed student with no cgpa
+	public static List<Student> getAllJoinedStudentNoCGPA(String examinationID, String eventID) {
+		List<Student> students = new ArrayList<Student>();
+		try {
+			currentCon = ConnectionManager.getConnection();
+			stat = currentCon.createStatement();
+			ResultSet rs = stat.executeQuery("SELECT\r\n" + 
+					"    s.student_id,\r\n" + 
+					"    s.student_name,\r\n" + 
+					"    s.class_name\r\n" + 
+					"FROM\r\n" + 
+					"    student s join studentevent se on (s.STUDENT_ID = se.STUDENT_ID)\r\n" + 
+					"WHERE\r\n" + 
+					"	se.EVENT_ID = '"+ eventID +"' AND\r\n" + 
+					"    s.STUDENT_ID NOT IN (select STUDENT_ID from studentgrade)\r\n" + 
+					"    \r\n" + 
+					"UNION\r\n" + 
+					"\r\n" + 
+					"SELECT\r\n" + 
+					"    s.student_id,\r\n" + 
+					"    s.student_name,\r\n" + 
+					"    s.class_name\r\n" + 
+					"FROM\r\n" + 
+					"    student s join studentevent se on (s.STUDENT_ID = se.STUDENT_ID)\r\n" + 
+					"WHERE \r\n" + 
+					"	se.EVENT_ID = '"+ eventID +"' AND\r\n" + 
+					"	s.STUDENT_ID\r\n" + 
+					"NOT IN\r\n" + 
+					"\r\n" + 
+					"    (SELECT\r\n" + 
+					"    s.student_id\r\n" + 
+					"FROM\r\n" + 
+					"    student s JOIN studentgrade sg ON (s.STUDENT_ID = sg.STUDENT_ID)\r\n" + 
+					"WHERE\r\n" + 
+					"\r\n" + 
+					"    sg.EXAMINATION_ID = '"+ examinationID +"')");
+
+			while (rs.next()) {
+				Student student = new Student();
+				student.setId(rs.getString(1));
+				student.setName(rs.getString(2));
+				student.setClassName(rs.getString(3));
+
+				students.add(student);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return students;
+	}
+	
+//	Get all joined student with cgpa
+	public static List<Student> getAllJoinedStudentWithCGPA(String examinationID, String eventID) {
+		List<Student> students = new ArrayList<Student>();
+		try {
+			currentCon = ConnectionManager.getConnection();
+			stat = currentCon.createStatement();
+			ResultSet rs = stat.executeQuery("SELECT\r\n" + 
+					"    s.student_id,\r\n" + 
+					"    s.student_name,\r\n" + 
+					"    s.class_name,\r\n" + 
+					"    ROUND(SUM(g.grade_mark) / 10,\r\n" + 
+					"    2)\r\n" + 
+					"FROM\r\n" + 
+					"    student s\r\n" + 
+					"LEFT JOIN studentgrade sg ON\r\n" + 
+					"    (s.STUDENT_ID = sg.STUDENT_ID)\r\n" + 
+					"LEFT JOIN grade g ON\r\n" + 
+					"    (g.GRADE_ID = sg.GRADE_ID)\r\n" + 
+					"LEFT JOIN SUBJECT sub ON\r\n" + 
+					"    (sub.SUBJECT_ID = sg.SUBJECT_ID)\r\n" + 
+					"LEFT JOIN examination e ON\r\n" + 
+					"    (e.EXAMINATION_ID = sg.EXAMINATION_ID)\r\n" + 
+					"JOIN studentevent se on (se.STUDENT_ID = s.STUDENT_ID)\r\n" + 
+					"WHERE se.EVENT_ID = '"+ eventID +"' AND\r\n" + 
+					" e.EXAMINATION_ID = '"+ examinationID +"' \r\n" + 
+					"GROUP BY\r\n" + 
+					"    student_id,\r\n" + 
+					"    student_name,\r\n" + 
+					"    class_name");
+
+			while (rs.next()) {
+				Student student = new Student();
+				student.setId(rs.getString(1));
+				student.setName(rs.getString(2));
+				student.setClassName(rs.getString(3));
+				student.setCgpa(rs.getString(4));
+
+				students.add(student);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return students;
+	}
 	
 //	 Get all students grade 1 (PT3)
-		public static List<Student> getAllStudentGrade1(String examinationID) {
-			List<Student> students = new ArrayList<Student>();
-			try {
-				currentCon = ConnectionManager.getConnection();
-				stat = currentCon.createStatement();
-				ResultSet rs = stat.executeQuery("SELECT\r\n" + 
-						"    student_id,\r\n" + 
-						"    student_name,\r\n" + 
-						"    class_name\r\n" + 
-						"FROM\r\n" + 
-						"    student \r\n" + 
-						"WHERE\r\n" + 
-						"    (SUBSTR(class_name, 1, 1) = 1 OR SUBSTR(class_name, 1, 1) = 2 OR SUBSTR(class_name, 1, 1) = 3) \r\n" + 
-						"    AND\r\n" + 
-						"    STUDENT_ID NOT IN (select STUDENT_ID from studentgrade)\r\n" + 
-						"    \r\n" + 
-						"UNION\r\n" + 
-						"\r\n" + 
-						"SELECT\r\n" + 
-						"    DISTINCT student_id,\r\n" + 
-						"    student_name,\r\n" + 
-						"    class_name\r\n" + 
-						"FROM\r\n" + 
-						"    student \r\n" + 
-						"WHERE\r\n" + 
-						"    ( SUBSTR(class_name, 1, 1) = 1 OR SUBSTR(class_name, 1, 1) = 2 OR SUBSTR(class_name, 1, 1) = 3)\r\n" + 
-						"	AND (STUDENT_ID\r\n" + 
-						"NOT IN\r\n" + 
-						"\r\n" + 
-						"    (SELECT\r\n" + 
-						"    s.student_id\r\n" + 
-						"FROM\r\n" + 
-						"    student s JOIN studentgrade sg ON (s.STUDENT_ID = sg.STUDENT_ID)\r\n" + 
-						"WHERE\r\n" + 
-						"    (SUBSTR(class_name, 1, 1) = 1 OR SUBSTR(class_name, 1, 1) = 2 OR SUBSTR(class_name, 1, 1) = 3) \r\n" + 
-						"    AND\r\n" + 
-						"    sg.EXAMINATION_ID = '"+ examinationID +"'))");
-	
-				while (rs.next()) {
-					Student student = new Student();
-					student.setId(rs.getString(1));
-					student.setName(rs.getString(2));
-					student.setClassName(rs.getString(3));
-	
-					students.add(student);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+	public static List<Student> getAllStudentGrade1(String examinationID) {
+		List<Student> students = new ArrayList<Student>();
+		try {
+			currentCon = ConnectionManager.getConnection();
+			stat = currentCon.createStatement();
+			ResultSet rs = stat.executeQuery("SELECT\r\n" + "    student_id,\r\n" + "    student_name,\r\n"
+					+ "    class_name\r\n" + "FROM\r\n" + "    student \r\n" + "WHERE\r\n"
+					+ "    (SUBSTR(class_name, 1, 1) = 1 OR SUBSTR(class_name, 1, 1) = 2 OR SUBSTR(class_name, 1, 1) = 3) \r\n"
+					+ "    AND\r\n" + "    STUDENT_ID NOT IN (select STUDENT_ID from studentgrade)\r\n" + "    \r\n"
+					+ "UNION\r\n" + "\r\n" + "SELECT\r\n" + "    DISTINCT student_id,\r\n" + "    student_name,\r\n"
+					+ "    class_name\r\n" + "FROM\r\n" + "    student \r\n" + "WHERE\r\n"
+					+ "    ( SUBSTR(class_name, 1, 1) = 1 OR SUBSTR(class_name, 1, 1) = 2 OR SUBSTR(class_name, 1, 1) = 3)\r\n"
+					+ "	AND (STUDENT_ID\r\n" + "NOT IN\r\n" + "\r\n" + "    (SELECT\r\n" + "    s.student_id\r\n"
+					+ "FROM\r\n" + "    student s JOIN studentgrade sg ON (s.STUDENT_ID = sg.STUDENT_ID)\r\n"
+					+ "WHERE\r\n"
+					+ "    (SUBSTR(class_name, 1, 1) = 1 OR SUBSTR(class_name, 1, 1) = 2 OR SUBSTR(class_name, 1, 1) = 3) \r\n"
+					+ "    AND\r\n" + "    sg.EXAMINATION_ID = '" + examinationID + "'))");
+
+			while (rs.next()) {
+				Student student = new Student();
+				student.setId(rs.getString(1));
+				student.setName(rs.getString(2));
+				student.setClassName(rs.getString(3));
+
+				students.add(student);
 			}
-	
-			return students;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-	
+
+		return students;
+	}
+
 	// Get all students grade 2 (SPM)
-		public static List<Student> getAllStudentGrade2(String examinationID) {
-			List<Student> students = new ArrayList<Student>();
-			try {
-				currentCon = ConnectionManager.getConnection();
-				stat = currentCon.createStatement();
-				ResultSet rs = stat.executeQuery("SELECT\r\n" + 
-						"    student_id,\r\n" + 
-						"    student_name,\r\n" + 
-						"    class_name\r\n" + 
-						"FROM\r\n" + 
-						"    student \r\n" + 
-						"WHERE\r\n" + 
-						"    (SUBSTR(class_name, 1, 1) = 4 OR SUBSTR(class_name, 1, 1) = 5) \r\n" + 
-						"    AND\r\n" + 
-						"    STUDENT_ID NOT IN (select STUDENT_ID from studentgrade)\r\n" + 
-						"    \r\n" + 
-						"UNION\r\n" + 
-						"\r\n" + 
-						"SELECT\r\n" + 
-						"    DISTINCT student_id,\r\n" + 
-						"    student_name,\r\n" + 
-						"    class_name\r\n" + 
-						"FROM\r\n" + 
-						"    student \r\n" + 
-						"WHERE\r\n" + 
-						"    ( SUBSTR(class_name, 1, 1) = 4 OR SUBSTR(class_name, 1, 1) = 5 )\r\n" + 
-						"	AND (STUDENT_ID\r\n" + 
-						"NOT IN\r\n" + 
-						"\r\n" + 
-						"    (SELECT\r\n" + 
-						"    s.student_id\r\n" + 
-						"FROM\r\n" + 
-						"    student s JOIN studentgrade sg ON (s.STUDENT_ID = sg.STUDENT_ID)\r\n" + 
-						"WHERE\r\n" + 
-						"    (SUBSTR(class_name, 1, 1) = 4 OR SUBSTR(class_name, 1, 1) = 5 ) \r\n" + 
-						"    AND\r\n" + 
-						"    sg.EXAMINATION_ID = '"+ examinationID +"'))");
+	public static List<Student> getAllStudentGrade2(String examinationID) {
+		List<Student> students = new ArrayList<Student>();
+		try {
+			currentCon = ConnectionManager.getConnection();
+			stat = currentCon.createStatement();
+			ResultSet rs = stat.executeQuery("SELECT\r\n" + "    student_id,\r\n" + "    student_name,\r\n"
+					+ "    class_name\r\n" + "FROM\r\n" + "    student \r\n" + "WHERE\r\n"
+					+ "    (SUBSTR(class_name, 1, 1) = 4 OR SUBSTR(class_name, 1, 1) = 5) \r\n" + "    AND\r\n"
+					+ "    STUDENT_ID NOT IN (select STUDENT_ID from studentgrade)\r\n" + "    \r\n" + "UNION\r\n"
+					+ "\r\n" + "SELECT\r\n" + "    DISTINCT student_id,\r\n" + "    student_name,\r\n"
+					+ "    class_name\r\n" + "FROM\r\n" + "    student \r\n" + "WHERE\r\n"
+					+ "    ( SUBSTR(class_name, 1, 1) = 4 OR SUBSTR(class_name, 1, 1) = 5 )\r\n"
+					+ "	AND (STUDENT_ID\r\n" + "NOT IN\r\n" + "\r\n" + "    (SELECT\r\n" + "    s.student_id\r\n"
+					+ "FROM\r\n" + "    student s JOIN studentgrade sg ON (s.STUDENT_ID = sg.STUDENT_ID)\r\n"
+					+ "WHERE\r\n" + "    (SUBSTR(class_name, 1, 1) = 4 OR SUBSTR(class_name, 1, 1) = 5 ) \r\n"
+					+ "    AND\r\n" + "    sg.EXAMINATION_ID = '" + examinationID + "'))");
 
-				while (rs.next()) {
-					Student student = new Student();
-					student.setId(rs.getString(1));
-					student.setName(rs.getString(2));
-					student.setClassName(rs.getString(3));
+			while (rs.next()) {
+				Student student = new Student();
+				student.setId(rs.getString(1));
+				student.setName(rs.getString(2));
+				student.setClassName(rs.getString(3));
 
-					students.add(student);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+				students.add(student);
 			}
-
-			return students;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		
+
+		return students;
+	}
+
 //	// Get all students grade 2 (SPM)
 //	public static List<Student> getAllStudentGrade2() {
 //		List<Student> students = new ArrayList<Student>();
@@ -511,7 +562,7 @@ public class StudentDAO {
 
 		return students;
 	}
-	
+
 	// Get all students grade 2 (SPM)
 	public static List<Student> getAllStudentGradeCgpa2(String examinationID) {
 		List<Student> students = new ArrayList<Student>();
@@ -522,8 +573,8 @@ public class StudentDAO {
 					"select s.student_id, s.student_name, s.class_name, round(sum(g.grade_mark)/10,2) from student s left join studentgrade sg on (s.STUDENT_ID = sg.STUDENT_ID) "
 							+ "left join grade g on (g.GRADE_ID = sg.GRADE_ID) left join subject sub on (sub.SUBJECT_ID = sg.SUBJECT_ID) left join examination e on (e.EXAMINATION_ID = sg.EXAMINATION_ID) "
 							+ "where  ( SUBSTR(s.class_name, 1, 1) = 4 "
-							+ "OR SUBSTR(s.class_name, 1, 1) = 5 ) AND e.EXAMINATION_ID = "
-							+ examinationID + " group by student_id ,student_name, class_name ");
+							+ "OR SUBSTR(s.class_name, 1, 1) = 5 ) AND e.EXAMINATION_ID = " + examinationID
+							+ " group by student_id ,student_name, class_name ");
 
 			while (rs.next()) {
 				Student student = new Student();
@@ -540,6 +591,5 @@ public class StudentDAO {
 
 		return students;
 	}
-	
 
 }

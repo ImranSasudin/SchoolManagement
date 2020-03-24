@@ -18,6 +18,8 @@ import javax.servlet.http.HttpSession;
 import Bean.Event;
 import Bean.StudentEvent;
 import Dao.EventDAO;
+import Dao.ExaminationDAO;
+import Dao.StudentDAO;
 import Dao.StudentEventDAO;
 
 /**
@@ -35,6 +37,7 @@ public class EventController extends HttpServlet {
 	
 	private static String LIST_EVENT = "/Event/ListEvents.jsp";
 	private static String EVENT = "/Event/EventResult.jsp";
+	private static String SORT = "/Event/EventSort.jsp";
 	private String forward = "";
        
     /**
@@ -53,7 +56,21 @@ public class EventController extends HttpServlet {
 		
 		if (action.equalsIgnoreCase("ListEvent")) {
 			request.setAttribute("events" , EventDAO.getAllEvents());
+			request.setAttribute("examinations" , ExaminationDAO.getAllExaminations());
 			forward = LIST_EVENT;
+		}
+		else if (action.equalsIgnoreCase("ViewJoinedStudent")) {
+			String eventID = request.getParameter("eventID");
+			String examinationID = request.getParameter("examinationID");
+			
+			request.setAttribute("students" , StudentDAO.getAllJoinedStudentNoCGPA(examinationID, eventID));
+			request.setAttribute("studentscgpa" , StudentDAO.getAllJoinedStudentWithCGPA(examinationID, eventID));
+			
+			request.setAttribute("examination" , ExaminationDAO.getExamination(examinationID));
+			
+			request.setAttribute("event" , EventDAO.getEventByIDtoSort(eventID));
+			
+			forward = SORT;
 		}
 		
 		RequestDispatcher view = request.getRequestDispatcher(forward);
