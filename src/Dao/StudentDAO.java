@@ -163,6 +163,7 @@ public class StudentDAO {
 
 		return student;
 	}
+
 	
 	// Update Student
 		public static void update(Student bean) throws NoSuchAlgorithmException {

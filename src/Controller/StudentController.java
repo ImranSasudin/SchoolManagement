@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import Bean.Student;
 import Dao.StudentDAO;
+import Dao.StudentGradeDAO;
 
 /**
  * Servlet implementation class StudentController
@@ -24,6 +25,7 @@ public class StudentController extends HttpServlet {
 	
 	private static String LIST_STUDENT = "/Student/ListStudents.jsp";
 	private static String UPDATE_STUDENT = "/Student/UpdateStudent.jsp";
+	private static String PERFORMANCE = "/Student/Performance.jsp";
 	
 	private String forward = "";
 
@@ -63,7 +65,23 @@ public class StudentController extends HttpServlet {
 			request.setAttribute("form", form);
 			request.setAttribute("formClass", formClass);
 		}
-	
+		else if (action.equalsIgnoreCase("StudentPerformance")) {
+			String id = request.getParameter("id");
+			forward = PERFORMANCE;
+			
+			student = StudentDAO.getUserByID(id);
+			String classHandle = student.getClassName();
+			
+			String[] arrOfStr = classHandle.split(" ");
+			
+			String form = arrOfStr[0];
+			String formClass = arrOfStr[1];
+			
+			request.setAttribute("student", student);
+			request.setAttribute("studentGrades", StudentGradeDAO.getStudentGrade(id));
+			request.setAttribute("form", form);
+			request.setAttribute("formClass", formClass);
+		}
 		
 		RequestDispatcher view = request.getRequestDispatcher(forward);
  	    view.forward(request, response);

@@ -37,6 +37,7 @@
     <link href="css/theme.css" rel="stylesheet" media="all">
     <link rel="stylesheet" href="css/datatables-select.min.css">
   	<link rel="stylesheet" href="css/datatables.min.css">
+  	<link rel="stylesheet" href="css/Chart.min.css">
 
 </head>
 
@@ -61,10 +62,9 @@
 								<div class="au-breadcrumb-left">
 									<span class="au-breadcrumb-span">You are here:</span>
 									<ul class="list-unstyled list-inline au-breadcrumb__list">
-										<li class="list-inline-item active">Student
-										</li>
+										<li class="list-inline-item active">Student</li>
 										<li class="list-inline-item seprate"><span>/</span></li>
-										<li class="list-inline-item">List All Students</li>
+										<li class="list-inline-item">Performance</li>
 									</ul>
 								</div>
 								<!--<form class="au-form-icon--sm" action="" method="post">
@@ -80,58 +80,14 @@
 				</div>
 			</section>
 			<!-- END BREADCRUMB-->
-			
-			<!-- WELCOME-->
-			<section class="welcome p-t-10">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-12">
-							<h1 class="title-4">
-								Student Lists
-							</h1>
-							<hr class="line-seprate">
-						</div>
-					</div>
-				</div>
-			</section>
-			<!-- END WELCOME-->
 
 			<!-- WELCOME-->
 			<section class="welcome p-t-10">
 				<div class="container">
 					<div class="row">
-						<div class="col-lg-11 mx-auto">
-							<table id="dtBasicExample" style="table-layout:fixed"
-								class="table table-striped table-bordered">
-								<thead style="">
-										<th class="th-sm">Student ID</th>
-										<th class="th-sm">IC Number</th>
-										<th class="th-sm">Name</th>
-										<!-- <th class="th-sm">Age</th>
-										<th class="th-sm">Address</th> -->
-										<th class="th-sm">Class</th>
-										<!-- <th class="th-sm">Guardian Name</th>
-										<th class="th-sm">Guardian Job</th> -->
-										<th class="th-sm"></th>
-										<th class="th-sm"></th>
-								</thead>
-								<tbody style="">
-									<c:forEach items="${students}" var="s">
-										<tr>
-											<td><c:out value="${s.id}" /></td>
-											<td><c:out value="${s.ic}" /></td>
-											<td><c:out value="${s.name}" /></td>
-											<%-- <td><c:out value="${s.age}" /></td>
-											<td><c:out value="${s.address}" /></td> --%>
-											<td><c:out value="${s.className}" /></td>
-											<%-- <td><c:out value="${s.guardianName}" /></td>
-											<td><c:out value="${s.guardianJob}" /></td> --%>
-											<td class="text-center"><a href="StudentController?action=UpdateStudent&id=<c:out value="${s.id}"/>" class="btn btn-primary">Update</a></td>
-											<td class="text-center"><a href="StudentController?action=StudentPerformance&id=<c:out value="${s.id}"/>" class="btn btn-success">Performance</a></td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
+						<div class="col-md-12">
+							<h1 class="title-4">Student Performance</h1>
+							<hr class="line-seprate">
 						</div>
 					</div>
 				</div>
@@ -140,7 +96,27 @@
 
 			<!-- CONTENT -->
 			<div class="container">
-			
+				<div class="row">
+					<div class="col-8 mx-auto">
+					<form action="../StudentController" method="post">
+						<br>
+						<div class="card h-100">
+							<h4 class="card-header">${student.name}, ${student.className}</h4>
+
+								<div class="card-body">
+									<!-- Graph -->
+									<canvas id="myChart" width="400" height="200"></canvas>
+									
+								</div>
+
+								<div class="card-footer text-center ">
+								<a href="/SchoolManagement/StudentController?action=ListStudents" class="btn btn-primary ">Back</a>
+							</div>
+							
+						</div>
+						</form>
+					</div>
+				</div>
 			</div>
 
 			<!-- COPYRIGHT-->
@@ -184,23 +160,62 @@
     <!-- Main JS-->
     <script src="js/main.js"></script>
     <script src="js/datatables.min.js"></script>
-
+    <script src="js/Chart.bundle.min.js"></script>
 	<script>
-		$(document).ready(function() {
-			$('#dtBasicExample').DataTable({
-				'columnDefs' : [ {
-
-					'targets' : [ 4, 5 ], // column or columns numbers
-
-					'orderable' : false, // set orderable for selected columns
-
-				} ],
-				"scrollX" : true,
-				responsive : true,
-				"bAutoWidth" : false
-			});
-			$('.dataTables_length').addClass('bs-select');
-		});
+		var dynamicColors = function() {
+		    var r = Math.floor(Math.random() * 255);
+		    var g = Math.floor(Math.random() * 255);
+		    var b = Math.floor(Math.random() * 255);
+		    return "rgb(" + r + "," + g + "," + b + ")";
+		}
+		var ctx = document.getElementById('myChart').getContext('2d');
+		var myChart = new Chart(ctx,
+				{
+					type : 'line',
+					data : {
+						labels : [ 
+							<c:forEach items="${studentGrades}" var="s">
+							'<c:out value="${s.examinationName}" />',
+							</c:forEach>
+								],
+						datasets : [ {
+							label : 'CGPA',
+							data : [ 
+								<c:forEach items="${studentGrades}" var="s">
+								'<c:out value="${s.gradeMark}" />',
+								</c:forEach>
+								],
+							fill : true,
+							 backgroundColor: [
+					                'rgba(79, 213, 72, 0.09)',
+					            ],
+							borderColor : [ 'rgba(79, 213, 72, 1)',
+								<c:forEach items="${studentGrades}" var="s">
+								dynamicColors(),
+								</c:forEach> ],
+							borderWidth : 3
+						} ]
+					},
+					options : {
+						title: {
+						      display: true,
+						      text: 'Student Performance'
+						    },
+						scales : {
+							yAxes : [ {
+								ticks : {
+									beginAtZero : false,
+									 min: 0,
+									 max: 4.00
+								}
+							} ],
+							xAxes : [ {
+									offset: true
+							} ]
+						}
+					}
+				});
+		
 	</script>
 
 </body>

@@ -131,5 +131,40 @@ public class StudentGradeDAO {
 			}
 		}
 	}
+	
+	// Get student grade by student id
+	public static List<StudentGrade> getStudentGrade(String id) {
+
+		List<StudentGrade> students = new ArrayList<StudentGrade>();
+
+		try {
+			currentCon = ConnectionManager.getConnection();
+			ps = currentCon.prepareStatement(
+					"SELECT\r\n" + "	concat(e.examination_name, date_format(e.EXAMINATION_DATE,\" (%M, %Y)\")),\r\n"
+							+ "    ROUND(SUM(g.grade_mark) / 10,\r\n" + "    2)\r\n" + "FROM\r\n" + "    student s\r\n"
+							+ "LEFT JOIN studentgrade sg ON\r\n" + "    (s.STUDENT_ID = sg.STUDENT_ID)\r\n"
+							+ "LEFT JOIN grade g ON\r\n" + "    (g.GRADE_ID = sg.GRADE_ID)\r\n"
+							+ "LEFT JOIN SUBJECT sub ON\r\n" + "    (sub.SUBJECT_ID = sg.SUBJECT_ID)\r\n"
+							+ "LEFT JOIN examination e ON\r\n" + "    (e.EXAMINATION_ID = sg.EXAMINATION_ID)\r\n"
+							+ "WHERE\r\n" + "    s.STUDENT_ID = ? \r\n" + "GROUP BY\r\n" + "	1");
+
+			ps.setString(1, id);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				StudentGrade student = new StudentGrade();
+				student.setExaminationName(rs.getString(1));
+				student.setGradeMark(rs.getString(2));
+				
+				students.add(student);
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return students;
+	}
 
 }
