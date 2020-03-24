@@ -13,9 +13,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Bean.Event;
+import Bean.StudentEvent;
 import Dao.EventDAO;
+import Dao.StudentEventDAO;
 
 /**
  * Servlet implementation class EventController
@@ -28,8 +31,10 @@ public class EventController extends HttpServlet {
 	DateFormat formatter; 
 	
 	Event event = new Event();
+	StudentEvent stuEvent = new StudentEvent();
 	
 	private static String LIST_EVENT = "/Event/ListEvents.jsp";
+	private static String EVENT = "/Event/EventResult.jsp";
 	private String forward = "";
        
     /**
@@ -94,7 +99,58 @@ public class EventController extends HttpServlet {
 			pw.println("alert('Add New Event Success');");
 		//	pw.println("window.location.href='/SchoolManagement/ExaminationController?action=ListExaminations';");
 			pw.println("</script>");
+		}
+		else if (action.equalsIgnoreCase("SearchEvent")) {
+			String id = request.getParameter("id");
 			
+			event = EventDAO.getEventByID(id);
+			// If event exist
+			if(event.isValid()) {
+				request.setAttribute("event" , event);
+				forward = EVENT;
+				
+				RequestDispatcher view = request.getRequestDispatcher(forward);
+		 	    view.forward(request, response);
+			}
+			else {
+				response.setContentType("text/html");
+				PrintWriter pw = response.getWriter();
+				pw.println("<script>");
+				pw.println("alert('Event does not exist or has already past');");
+				pw.println("window.location.href='/SchoolManagement/Event/JoinEvent.jsp';");
+				pw.println("</script>");
+			}
+			
+		}
+		else if (action.equalsIgnoreCase("JoinEvent")) {
+			HttpSession session = request.getSession(true);
+			
+			String id = (String) session.getAttribute("userIDSession");
+			String eventID = request.getParameter("id");
+			
+			stuEvent = StudentEventDAO.verifyEvent(eventID, id);
+			//  Student not join yet, then can insert
+			if(!stuEvent.isValid()) {
+				stuEvent.setStudentID(id);
+				stuEvent.setEventID(eventID);
+				
+				StudentEventDAO.add(stuEvent);
+				
+				response.setContentType("text/html");
+				PrintWriter pw = response.getWriter();
+				pw.println("<script>");
+				pw.println("alert('Successfully join');");
+				pw.println("window.location.href='/SchoolManagement/StudentController?action=Home';");
+				pw.println("</script>");
+			}
+			else {
+				response.setContentType("text/html");
+				PrintWriter pw = response.getWriter();
+				pw.println("<script>");
+				pw.println("alert('You has already join this event');");
+				pw.println("window.location.href='/SchoolManagement/StudentController?action=Home';");
+				pw.println("</script>");
+			}
 			
 		}
 	}

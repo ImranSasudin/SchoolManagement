@@ -61,7 +61,7 @@
 								<div class="au-breadcrumb-left">
 									<span class="au-breadcrumb-span">You are here:</span>
 									<ul class="list-unstyled list-inline au-breadcrumb__list">
-										<li class="list-inline-item active"></li>
+										<li class="list-inline-item active"><a href="/SchoolManagement/StudentController?action=Home">Home</a></li>
 										<li class="list-inline-item seprate"><span>/</span></li>
 										<li class="list-inline-item">Account</li>
 									</ul>
@@ -97,7 +97,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-6 mx-auto">
-					<form action="/SchoolManagement/TeacherController" method="post">
+					<form action="/SchoolManagement/StudentController" method="post">
 						<br>
 						<div class="card h-100">
 							<h4 class="card-header">Personal Details</h4>
@@ -105,54 +105,61 @@
 							<div class="card-body">
 								<div class="form-group">
 									<br />
-									<h4 class="text-left ">Name* :</h4>
-									<input type="text" name="teacherName"
-										class="form-control border border-info" value="<c:out value="${teacher.teacherName}"/>"
-										placeholder="" required>
+									<h4 class="text-left ">Student ID :</h4>
+									<input type="text" name="id"
+										class="form-control border border-info" value="<c:out value="${student.id}"/>"
+										placeholder="" readonly>
 									<br>
-									<h4 class="text-left ">Password* :</h4>
-									<input type="password" name="teacherPassword" value="<c:out value="${teacher.password}"/>"
+									<h4 class="text-left ">IC number :</h4>
+									<input type="text" name="ic"
+										class="form-control border border-info" value="<c:out value="${student.ic}"/>"
+										placeholder="" readonly>
+									<br>
+									<h4 class="text-left ">Name :</h4>
+									<input type="text" name="name"
+										class="form-control border border-info" value="<c:out value="${student.name}"/>"
+										placeholder="" readonly>
+									<br>
+									<h4 class="text-left ">Age :</h4>
+									<input type="text" name="age" value="<c:out value="${student.age}"/>"
 										class="form-control border border-info"
 										placeholder="" required>
 									<br>
 									<div class="row">
 										<div class="col">
-											<h4 class="text-left">Class Handle* :</h4>
+											<h4 class="text-left">Class Name :</h4>
 										</div>
 									</div>
 									<br>
 									<div class="row">
 										<div class="col-4">
-											<select name="form" class="form-control border border-info" required>
-												<option hidden selected value="<c:out value="${form}"/>"><c:out value="${form}"/></option>
-												<option value="1">1</option>
-												<option value="2">2</option>
-												<option value="3">3</option>
-												<option value="4">4</option>
-												<option value="5">5</option>
-											</select>
+											<input name="form" class="form-control border border-info" value="<c:out value="${form}"/>" readonly/>
 										</div>
 										<div class="col-8">
-											<select name="class" class="form-control border border-info" required>
-												<option hidden selected value="<c:out value="${formClass}"/>"><c:out value="${formClass}"/></option>
-												<option value="ARIF">ARIF</option>
-												<option value="BESTARI">BESTARI</option>
-												<option value="CENDIKIAWAN">CENDIKIAWAN</option>
-												<option value="DAMAI">DAMAI</option>
-												<option value="EFISIEN">EFISIEN</option>
-											</select>
+											<input name="class" class="form-control border border-info" value="<c:out value="${formClass}"/>" readonly/>
 										</div>
 									</div>
 									<br>
-									<h4 class="text-left ">Department* :</h4>
-									<input type="text" name="department" value="<c:out value="${teacher.department}"/>"
+									<h4 class="text-left ">Address :</h4>
+									<input type="text" name="address" value="<c:out value="${student.address}"/>"
 										class="form-control border border-info"
-										placeholder="Matematik / Bahasa Melayu / etc" required>
+										 required>
+									 <br>
+									 <h4 class="text-left ">Guardian Name :</h4>
+									<input type="text" name="guardianName"
+										class="form-control border border-info" value="<c:out value="${student.guardianName}"/>"
+										placeholder="" required>
+									<br>
+									<h4 class="text-left ">Guardian Job :</h4>
+									<input type="text" name="guardianJob"
+										class="form-control border border-info" value="<c:out value="${student.guardianJob}"/>"
+										placeholder="" required>
+									<br>
 								</div>
 							</div>
 							
 							<div class="card-footer text-center ">
-								<button type="submit" name="action" value="UpdateTeacher" class="btn btn-primary ">UPDATE</button>
+								<button type="submit" name="action" value="UpdateAccount" class="btn btn-primary ">UPDATE</button>
 							</div>
 							
 						</div>

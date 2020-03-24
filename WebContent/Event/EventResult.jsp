@@ -62,8 +62,8 @@
 									<span class="au-breadcrumb-span">You are here:</span>
 									<ul class="list-unstyled list-inline au-breadcrumb__list">
 										<li class="list-inline-item active"></li>
-										<li class="list-inline-item seprate"><span>/</span></li>
-										<li class="list-inline-item">Account</li>
+										<li class="list-inline-item seprate"><span></span></li>
+										<li class="list-inline-item">Event Result</li>
 									</ul>
 								</div>
 								<!--<form class="au-form-icon--sm" action="" method="post">
@@ -85,7 +85,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-md-12">
-							<h1 class="title-4">View / Edit Account</h1>
+							<h1 class="title-4">Join Event</h1>
 							<hr class="line-seprate">
 						</div>
 					</div>
@@ -97,62 +97,34 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-6 mx-auto">
-					<form action="/SchoolManagement/TeacherController" method="post">
+					<form action="/SchoolManagement/EventController" method="post">
 						<br>
 						<div class="card h-100">
-							<h4 class="card-header">Personal Details</h4>
+							<h4 class="card-header">Event Details</h4>
 							
 							<div class="card-body">
 								<div class="form-group">
 									<br />
-									<h4 class="text-left ">Name* :</h4>
-									<input type="text" name="teacherName"
-										class="form-control border border-info" value="<c:out value="${teacher.teacherName}"/>"
-										placeholder="" required>
+									<input type="hidden" name="id" value="<c:out value="${event.eventID}"/>"/>
+									<h4 class="text-left ">Event Name :</h4>
+									<input type="text" name="name"
+										class="form-control border border-info" value="<c:out value="${event.eventName}"/>"
+										placeholder="" readonly>
 									<br>
-									<h4 class="text-left ">Password* :</h4>
-									<input type="password" name="teacherPassword" value="<c:out value="${teacher.password}"/>"
+									<h4 class="text-left ">Place :</h4>
+									<input type="text" name="place" value="<c:out value="${event.eventPlace}"/>"
 										class="form-control border border-info"
-										placeholder="" required>
+										placeholder="" readonly>
 									<br>
-									<div class="row">
-										<div class="col">
-											<h4 class="text-left">Class Handle* :</h4>
-										</div>
-									</div>
-									<br>
-									<div class="row">
-										<div class="col-4">
-											<select name="form" class="form-control border border-info" required>
-												<option hidden selected value="<c:out value="${form}"/>"><c:out value="${form}"/></option>
-												<option value="1">1</option>
-												<option value="2">2</option>
-												<option value="3">3</option>
-												<option value="4">4</option>
-												<option value="5">5</option>
-											</select>
-										</div>
-										<div class="col-8">
-											<select name="class" class="form-control border border-info" required>
-												<option hidden selected value="<c:out value="${formClass}"/>"><c:out value="${formClass}"/></option>
-												<option value="ARIF">ARIF</option>
-												<option value="BESTARI">BESTARI</option>
-												<option value="CENDIKIAWAN">CENDIKIAWAN</option>
-												<option value="DAMAI">DAMAI</option>
-												<option value="EFISIEN">EFISIEN</option>
-											</select>
-										</div>
-									</div>
-									<br>
-									<h4 class="text-left ">Department* :</h4>
-									<input type="text" name="department" value="<c:out value="${teacher.department}"/>"
+									<h4 class="text-left ">Date :</h4>
+									<input type="text" name="date" value="<c:out value="${event.eventDateText}"/>"
 										class="form-control border border-info"
-										placeholder="Matematik / Bahasa Melayu / etc" required>
+										placeholder="Matematik / Bahasa Melayu / etc" readonly>
 								</div>
 							</div>
 							
 							<div class="card-footer text-center ">
-								<button type="submit" name="action" value="UpdateTeacher" class="btn btn-primary ">UPDATE</button>
+								<button type="submit" name="action" value="JoinEvent" class="btn btn-primary ">JOIN</button>
 							</div>
 							
 						</div>
@@ -188,7 +160,7 @@
     </script>
     <script src="vendor/wow/wow.min.js"></script>
     <script src="vendor/animsition/animsition.min.js"></script>
-    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+    <script src=vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
     </script>
     <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
     <script src="vendor/counter-up/jquery.counterup.min.js">

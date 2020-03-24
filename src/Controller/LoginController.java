@@ -24,6 +24,7 @@ public class LoginController extends HttpServlet {
 	Student student = new Student();
 	
 	private static String VIEW_ACCOUNT = "/Teacher/ViewAccount.jsp";
+	private static String VIEW_ACCOUNT_STUDENT = "/Student/ViewAccount.jsp";
 	private String forward = "";
 
 	public LoginController() {
@@ -56,7 +57,20 @@ public class LoginController extends HttpServlet {
 				request.setAttribute("formClass", formClass);
 			}
 			else if (role.equalsIgnoreCase("Student")) {
+				String id = request.getParameter("ID");
+				forward = VIEW_ACCOUNT_STUDENT;
 				
+				student = StudentDAO.getUserByID(id);
+				String className = student.getClassName();
+				
+				String[] arrOfStr = className.split(" ");
+				
+				String form = arrOfStr[0];
+				String formClass = arrOfStr[1];
+				
+				request.setAttribute("student", student);
+				request.setAttribute("form", form);
+				request.setAttribute("formClass", formClass);
 			}
 		}
 		else if (action.equalsIgnoreCase("Logout")) {

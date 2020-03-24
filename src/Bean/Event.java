@@ -6,6 +6,7 @@ public class Event {
 	
 	String eventID, eventName, eventPlace, eventDateText;
 	Date eventDate;
+	boolean valid;
 	
 	public Event() {
 		super();
@@ -51,5 +52,15 @@ public class Event {
 	public void setEventDateText(String eventDateText) {
 		this.eventDateText = eventDateText;
 	}
+
+	public boolean isValid() {
+		return valid;
+	}
+
+	public void setValid(boolean valid) {
+		this.valid = valid;
+	}
+	
+	
 	
 }
