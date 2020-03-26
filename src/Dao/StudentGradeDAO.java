@@ -166,5 +166,110 @@ public class StudentGradeDAO {
 
 		return students;
 	}
+	
+	// Get all form from studentgrade
+	public static List<StudentGrade> getAllForm() {
+		List<StudentGrade> students = new ArrayList<StudentGrade>();
+		try {
+			currentCon = ConnectionManager.getConnection();
+			stat = currentCon.createStatement();
+			ResultSet rs = stat.executeQuery("SELECT DISTINCT\r\n" + 
+					"    concat(\"Form \", SUBSTR(s.CLASS_NAME, 1, 1))\r\n" + 
+					"FROM\r\n" + 
+					"    student s\r\n" + 
+					"JOIN studentgrade sg ON\r\n" + 
+					"    (s.STUDENT_ID = sg.STUDENT_ID)\r\n" + 
+					"JOIN examination e ON\r\n" + 
+					"    (\r\n" + 
+					"        e.EXAMINATION_ID = sg.EXAMINATION_ID\r\n" + 
+					"    )\r\n" + 
+					"JOIN grade g ON\r\n" + 
+					"    (g.GRADE_ID = sg.GRADE_ID)\r\n" + 
+					"ORDER BY 1");
+
+			while (rs.next()) {
+				StudentGrade student = new StudentGrade();
+				student.setClassName(rs.getString(1));
+
+				students.add(student);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return students;
+	}
+	
+	// Get all form from studentgrade
+	public static List<StudentGrade> getAllExamination() {
+		List<StudentGrade> students = new ArrayList<StudentGrade>();
+		try {
+			currentCon = ConnectionManager.getConnection();
+			stat = currentCon.createStatement();
+			ResultSet rs = stat.executeQuery("SELECT DISTINCT\r\n" + 
+					"    e.examination_name\r\n" + 
+					"FROM\r\n" + 
+					"    student s\r\n" + 
+					"JOIN studentgrade sg ON\r\n" + 
+					"    (s.STUDENT_ID = sg.STUDENT_ID)\r\n" + 
+					"JOIN examination e ON\r\n" + 
+					"    (\r\n" + 
+					"        e.EXAMINATION_ID = sg.EXAMINATION_ID\r\n" + 
+					"    )\r\n" + 
+					"JOIN grade g ON\r\n" + 
+					"    (g.GRADE_ID = sg.GRADE_ID)\r\n" + 
+					"ORDER BY e.EXAMINATION_DATE");
+
+			while (rs.next()) {
+				StudentGrade student = new StudentGrade();
+				student.setExaminationName(rs.getString(1));
+
+				students.add(student);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return students;
+	}
+	
+	// Get all form from studentgrade
+	public static List<StudentGrade> getAllPerformanceByBatch(String form) {
+		List<StudentGrade> students = new ArrayList<StudentGrade>();
+		try {
+			currentCon = ConnectionManager.getConnection();
+			stat = currentCon.createStatement();
+			ResultSet rs = stat.executeQuery("SELECT DISTINCT\r\n" + 
+					"    SUBSTR(s.CLASS_NAME, 1, 1),\r\n" + 
+					"    e.examination_name,\r\n" + 
+					"    ROUND(AVG(g.grade_mark), 2)\r\n" + 
+					"FROM\r\n" + 
+					"    student s\r\n" + 
+					"JOIN studentgrade sg ON\r\n" + 
+					"    (s.STUDENT_ID = sg.STUDENT_ID)\r\n" + 
+					"JOIN examination e ON\r\n" + 
+					"    (\r\n" + 
+					"        e.EXAMINATION_ID = sg.EXAMINATION_ID\r\n" + 
+					"    )\r\n" + 
+					"JOIN grade g ON\r\n" + 
+					"    (g.GRADE_ID = sg.GRADE_ID)\r\n" + 
+					"WHERE SUBSTR(s.CLASS_NAME, 1, 1) = '"+ form +"' \r\n" + 
+					"GROUP BY 1, 2\r\n" + 
+					"ORDER BY 1, e.examination_date");
+
+			while (rs.next()) {
+				StudentGrade student = new StudentGrade();
+				student.setExaminationName(rs.getString(2));
+				student.setGradeMark(rs.getString(3));
+				student.setClassName(rs.getString(1));
+
+				students.add(student);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return students;
+	}
 
 }

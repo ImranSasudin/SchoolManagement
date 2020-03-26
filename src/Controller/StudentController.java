@@ -29,6 +29,7 @@ public class StudentController extends HttpServlet {
 	private static String LIST_STUDENT = "/Student/ListStudents.jsp";
 	private static String UPDATE_STUDENT = "/Student/UpdateStudent.jsp";
 	private static String PERFORMANCE = "/Student/Performance.jsp";
+	private static String PERFORMANCE_BY_BATCH = "/Student/PerformanceByBatch.jsp";
 	
 	private String forward = "";
 
@@ -92,6 +93,24 @@ public class StudentController extends HttpServlet {
 			request.setAttribute("events" , EventDAO.getAllJoinedEvents(id));
 			forward = LIST_JOINED_EVENT;
 		}
+		else if (action.equalsIgnoreCase("PerformanceByBatch")) {
+			forward = PERFORMANCE_BY_BATCH;
+			
+			String form1 = "1";
+			String form2 = "2";
+			String form3 = "3";
+			String form4 = "4";
+			String form5 = "5";
+			request.setAttribute("form", StudentGradeDAO.getAllForm());
+			request.setAttribute("examination", StudentGradeDAO.getAllExamination());
+			
+			request.setAttribute("studentGrades1", StudentGradeDAO.getAllPerformanceByBatch(form1));
+			request.setAttribute("studentGrades2", StudentGradeDAO.getAllPerformanceByBatch(form2));
+			request.setAttribute("studentGrades3", StudentGradeDAO.getAllPerformanceByBatch(form3));
+			request.setAttribute("studentGrades4", StudentGradeDAO.getAllPerformanceByBatch(form4));
+			request.setAttribute("studentGrades5", StudentGradeDAO.getAllPerformanceByBatch(form5));
+
+		} 
 		
 		
 		RequestDispatcher view = request.getRequestDispatcher(forward);

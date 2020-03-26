@@ -62,9 +62,9 @@
 								<div class="au-breadcrumb-left">
 									<span class="au-breadcrumb-span">You are here:</span>
 									<ul class="list-unstyled list-inline au-breadcrumb__list">
-										<li class="list-inline-item active">Student</li>
-										<li class="list-inline-item seprate"><span>/</span></li>
-										<li class="list-inline-item">Performance</li>
+										<li class="list-inline-item active">Performance By Batch</li>
+										<li class="list-inline-item seprate"><span></span></li>
+										<li class="list-inline-item"></li>
 									</ul>
 								</div>
 								<!--<form class="au-form-icon--sm" action="" method="post">
@@ -86,7 +86,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-md-12">
-							<h1 class="title-4">Student Performance</h1>
+							<h1 class="title-4">Performance By Batch</h1>
 							<hr class="line-seprate">
 						</div>
 					</div>
@@ -101,7 +101,7 @@
 					<form action="../StudentController" method="post">
 						<br>
 						<div class="card h-100">
-							<h4 class="card-header">${student.name}, ${student.className}</h4>
+							<%-- <h4 class="card-header">${student.name}, ${student.className}</h4> --%>
 
 								<div class="card-body">
 									<!-- Graph -->
@@ -109,10 +109,6 @@
 									<canvas id="myChart" width="400" height="200"></canvas>
 									
 								</div>
-
-								<div class="card-footer text-center ">
-								<a href="/SchoolManagement/StudentController?action=ListStudents" class="btn btn-primary ">Back</a>
-							</div>
 							
 						</div>
 						</form>
@@ -169,65 +165,100 @@
 		    var b = Math.floor(Math.random() * 255);
 		    return "rgb(" + r + "," + g + "," + b + ")";
 		}
-		var ctx = document.getElementById('myChart').getContext('2d');
-		var myChart = new Chart(ctx,
-				{
-					type : 'line',
-					data : {
-						labels : [ 
-							<c:forEach items="${studentGrades}" var="s">
-							'<c:out value="${s.examinationName}" />',
-							</c:forEach>
-								],
-						datasets : [ {
-							label : 'CGPA',
-							data : [ 
-								<c:forEach items="${studentGrades}" var="s">
-								'<c:out value="${s.gradeMark}" />',
+		new Chart(document.getElementById("myChart"), {
+			  type: 'line',
+			  data: {
+			    labels: [
+				    	<c:forEach items="${examination}" var="e">
+						'<c:out value="${e.examinationName}" />',
+						</c:forEach>
+				    	],
+			    datasets: [
+				    	{
+					        data: [
+					        	<c:forEach items="${studentGrades1}" var="sg">
+				        			<c:out value="${sg.gradeMark}" />,
 								</c:forEach>
-								],
-							fill : true,
-							 backgroundColor: [
-					                'rgba(79, 213, 72, 0.09)',
-					            ],
-							borderColor : [ 'rgba(79, 213, 72, 1)',
-								<c:forEach items="${studentGrades}" var="s">
-								dynamicColors(),
-								</c:forEach> ],
-							borderWidth : 3
-						} ]
-					},
-					options : {
-						title: {
-						      display: true,
-						      text: 'Student Performance'
-						    },
-						scales : {
-							yAxes : [ {
-								ticks : {
-									beginAtZero : false,
-									 min: 0,
-									 max: 4.00
-								},
-								scaleLabel: {
-			                        display: true,
-			                        labelString: "CGPA",
-			                        fontFamily: "Montserrat",
-			                        fontColor: "black",
-			                    },
-							} ],
-							xAxes : [ {
-									offset: true,
-									scaleLabel: {
-				                        display: true,
-				                        labelString: "Examination",
-				                        fontFamily: "Montserrat",
-				                        fontColor: "black",
-				                    },
-							}]
-						}
-					}
-				});
+					        	],
+					        label: "Form 1",
+					        borderColor: dynamicColors(),
+					        fill: false
+							    
+			    		}, {
+					        data: [
+					        	<c:forEach items="${studentGrades2}" var="sg">
+				        			<c:out value="${sg.gradeMark}" />,
+								</c:forEach>
+					        	],
+					        label: "Form 2",
+					        borderColor: dynamicColors(),
+					        fill: false
+							     
+				    	}, {
+				    		data: [
+					        	<c:forEach items="${studentGrades3}" var="sg">
+				        			<c:out value="${sg.gradeMark}" />,
+								</c:forEach>
+					        	],
+					        label: "Form 3",
+					        borderColor: dynamicColors(),
+					        fill: false
+							     
+				    	}, {
+				    		data: [
+					        	<c:forEach items="${studentGrades4}" var="sg">
+				        			<c:out value="${sg.gradeMark}" />,
+								</c:forEach>
+					        	],
+					        label: "Form 4",
+					        borderColor: dynamicColors(),
+					        fill: false
+							     
+				    	}, {
+				    		data: [
+					        	<c:forEach items="${studentGrades5}" var="sg">
+				        			<c:out value="${sg.gradeMark}" />,
+								</c:forEach>
+					        	],
+					        label: "Form 5",
+					        borderColor: dynamicColors(),
+					        fill: false
+							     
+				    	},		
+				    	
+			    ]
+			  },
+			  options: {
+			    title: {
+			      display: true,
+			      text: 'Performance By Batch'
+			    },
+			    scales: {
+			    	xAxes : [{
+			    		offset: true,
+			    		scaleLabel: {
+	                        display: true,
+	                        labelString: "Examination",
+	                        fontFamily: "Montserrat",
+	                        fontColor: "black",
+	                    },
+			    	},
+                    ],
+			    	yAxes: [{
+			    		ticks : {
+			    			min: 0,
+			    			max: 4.00
+			    		},
+			    		scaleLabel: {
+	                        display: true,
+	                        labelString: "CGPA",
+	                        fontFamily: "Montserrat",
+	                        fontColor: "black",
+	                    },
+			    	}]
+			    }
+			  }
+			});
 		
 	</script>
 

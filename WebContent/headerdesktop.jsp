@@ -44,10 +44,10 @@ else if (role.equalsIgnoreCase("Teacher")){
 							<li><a href="/SchoolManagement/EventController?action=ListEvent">List All Events</a></li>
 						</ul>
 					</li>
-					<!-- <li><a href="/SchoolManagement/StudentController?action=PerformanceByBatch"> <i class="fas fa-trophy"></i> <span
+					<li><a href="/SchoolManagement/StudentController?action=PerformanceByBatch"> <i class="fas fa-trophy"></i> <span
 							class="bot-line"></span>Performance by Batch
 					</a>
-					</li> -->
+					</li>
 					<li class="has-sub"><a href="#"> <i class="fas fa-briefcase"></i>
 							<span class="bot-line"></span>Teacher
 					</a>

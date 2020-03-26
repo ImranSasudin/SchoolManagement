@@ -1,7 +1,7 @@
 package Bean;
 
 public class StudentGrade extends Grade {
-	String studentID, subjectID, examinationID, gradeID;
+	String studentID, subjectID, examinationID, gradeID, className;
 
 	public StudentGrade() {
 		super();
@@ -46,6 +46,14 @@ public class StudentGrade extends Grade {
 
 	public void setGradeID(String gradeID) {
 		this.gradeID = gradeID;
+	}
+
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
 	}
 	
 	
